@@ -2,7 +2,7 @@
 <template>
   <v-footer>
     <v-card flat tile class="secondary text-white text-center">
-      <v-card-text>
+      <v-card-text v-if="mediaLinks">
         <v-btn
           v-for="(icon, i) in icons"
           :key="i"
@@ -72,5 +72,8 @@ export default {
       },
     ],
   }),
+  props: {
+    mediaLinks: Boolean,
+  },
 };
 </script>

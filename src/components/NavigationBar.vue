@@ -8,11 +8,15 @@
     :class="{ expand: flat }"
   >
     <v-toolbar-title max-width="100px" v-if="isXs">
-      <v-img id="mini-panel" src="@/assets/panel_mini.png" />
+      <router-link to="/">
+        <v-img id="mini-panel" src="@/assets/panel_mini.png" />
+      </router-link>
     </v-toolbar-title>
 
     <v-toolbar-title v-else>
-      <v-img src="@/assets/panel.png" />
+      <router-link to="/">
+        <v-img src="@/assets/panel.png" />
+      </router-link>
     </v-toolbar-title>
 
     <v-btn
@@ -20,7 +24,13 @@
       variant="outlined"
       size="large"
       append-icon="mdi-account-circle"
-      @click="$vuetify.goTo('#login')"
+      @click="
+        {
+          code = '404';
+          message = 'Page Not Found';
+          $router.push({ name: 'error', state: { code, message } });
+        }
+      "
     >
       <!------------------------------------------------------------Dodati login------------------------------------------------------------>
       PRIJAVA
@@ -75,6 +85,7 @@
 export default {
   data: () => ({
     isXs: false,
+    ok: "mesaad",
   }),
   props: {
     color: String,

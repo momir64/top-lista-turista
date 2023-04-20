@@ -8,3 +8,17 @@
 // @use 'vuetify' with (
 //   $color-pack: false
 // );
+
+@font-face {
+  font-family: "Times New Roman";
+  src: url("@/assets/times.ttf") format("opentype");
+}
+
+:root {
+  color-scheme: dark;
+  font-family: "Source Sans Pro";
+}
+
+.v-main {
+  background-color: #dcd4c6;
+}

@@ -5,7 +5,11 @@
       <div class="home_cover_div hidden-sm-and-up">
         <img class="quote" src="@/assets/quote.svg" />
       </div>
-      <v-parallax id="home_cover" class="hidden-xs" src="@/assets/background.jpg">
+      <v-parallax
+        id="home_cover"
+        class="hidden-xs"
+        src="@/assets/background.jpg"
+      >
         <img class="quote" src="@/assets/quote.svg" />
       </v-parallax>
       <agencije />
@@ -24,15 +28,11 @@
       >
       </v-btn>
     </v-scale-transition>
-    <foote />
+    <foote :mediaLinks="true" />
   </v-app>
 </template>
 
 <style lang="scss">
-@font-face {
-  font-family: "Times New Roman";
-  src: url("C:\\Windows\\Fonts\\times.ttf") format("opentype");
-}
 .quote {
   position: absolute;
   padding: 70px;
@@ -61,13 +61,7 @@
     repeat: no-repeat;
   }
 }
-:root {
-  color-scheme: dark;
-  font-family: "Source Sans Pro";
-}
-.v-main {
-  background-color: #dcd4c6;
-}
+
 .v-btn[fab] {
   position: fixed;
   z-index: 1000;

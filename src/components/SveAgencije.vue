@@ -143,27 +143,34 @@ export default {
     agencije: [],
   }),
   methods: {
-    load_agencije() {
-      fetch(this.url + "/agencije.json")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
-        .then((data) => {
-          const results = [];
-          for (const id in data) {
-            results.push({
-              id: id,
-              logo: data[id]["logo"],
-              naziv: data[id]["naziv"],
-              adresa: data[id]["adresa"],
-              email: data[id]["email"],
-              telefon: data[id]["brojTelefona"],
-            });
-          }
-          this.agencije = results;
-        });
+    async load_agencije() {
+      let code, message;
+      try {
+        let response = await fetch(this.url + "/agencije.json");
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+
+        const data = await response.json();
+        const results = [];
+
+        for (const id in data) {
+          results.push({
+            id: id,
+            logo: data[id]["logo"],
+            naziv: data[id]["naziv"],
+            adresa: data[id]["adresa"],
+            email: data[id]["email"],
+            telefon: data[id]["brojTelefona"],
+          });
+        }
+        this.agencije = results;
+      } catch {
+        console.log(code + " " + message);
+        message = `Firebase: ${code}\u00A0${message}`;
+        code = "Ooops";
+        this.$router.push({ name: "error", state: { code, message } });
+      }
     },
   },
   beforeMount() {
