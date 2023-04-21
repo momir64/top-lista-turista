@@ -24,13 +24,7 @@
       variant="outlined"
       size="large"
       append-icon="mdi-account-circle"
-      @click="
-        {
-          code = '404';
-          message = 'Page Not Found';
-          $router.push({ name: 'error', state: { code, message } });
-        }
-      "
+      @click="$router.push('/error')"
     >
       <!------------------------------------------------------------Dodati login------------------------------------------------------------>
       PRIJAVA

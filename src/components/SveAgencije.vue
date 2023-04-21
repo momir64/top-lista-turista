@@ -34,27 +34,34 @@
           <v-col
             class="pa-xs-3 pa-sm-4 pa-md-5 pa-lg-6 mb-2 mb-sm-1"
             v-for="agencija in agencije"
-            :key="agencija.title"
+            :key="agencija.id"
             cols="12"
             md="6"
             lg="4"
           >
-            <v-card class="kartica">
-              <v-img
-                :src="agencija.logo"
-                class="align-end"
-                gradient="to bottom, rgba(0,0,0,0.05), rgba(0,0,0,.4)"
-                height="200px"
-                cover
-              >
-              </v-img>
-              <v-card-title>{{ agencija.naziv }}</v-card-title>
-              <v-card-text>
-                {{ agencija.adresa }}<br />
-                {{ agencija.email }}<br />
-                {{ agencija.telefon }}<br />
-              </v-card-text>
-            </v-card>
+            <router-link
+              style="text-decoration: none; color: inherit"
+              :to="`/agencija/${agencija.naziv}`"
+            >
+              <v-card class="kartica">
+                <v-img
+                  :src="agencija.logo"
+                  class="align-end"
+                  gradient="to bottom, rgba(0,0,0,0.05), rgba(0,0,0,.4)"
+                  height="222px"
+                  cover
+                >
+                </v-img>
+                <v-card-title class="kartica_naslov">{{
+                  agencija.naziv
+                }}</v-card-title>
+                <v-card-text class="kartica_tekst">
+                  {{ agencija.adresa }}<br />
+                  {{ agencija.email }}<br />
+                  {{ agencija.telefon }}<br />
+                </v-card-text>
+              </v-card>
+            </router-link>
           </v-col>
         </v-row>
         <div style="height: 100px; width: 100%"></div>
@@ -64,8 +71,22 @@
 </template>
 
 <style scoped lang="scss">
+.kartica_naslov {
+  font-family: "Source Sans Pro" !important;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-weight: 600;
+  font-size: 26px;
+}
+.kartica_tekst {
+  font-family: "Source Sans Pro" !important;
+  padding-bottom: 22px;
+  font-size: 16px;
+}
 .kartica {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+  background-color: #f9f2e3;
+  border-radius: 8px;
 }
 #izbornik {
   transition: 0.11s;
@@ -165,11 +186,11 @@ export default {
           });
         }
         this.agencije = results;
-      } catch {
-        console.log(code + " " + message);
+      } catch (e) {
+        console.log(e);
         message = `Firebase: ${code}\u00A0${message}`;
         code = "Ooops";
-        this.$router.push({ name: "error", state: { code, message } });
+        this.$router.push({ path: "/error", state: { code, message } });
       }
     },
   },

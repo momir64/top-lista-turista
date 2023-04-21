@@ -14,11 +14,14 @@
   src: url("@/assets/times.ttf") format("opentype");
 }
 
-:root {
-  color-scheme: dark;
-  font-family: "Source Sans Pro";
-}
-
 .v-main {
   background-color: #dcd4c6;
+}
+
+$font-family: "Source Sans Pro";
+.v-application {
+  [class*="text-"] {
+    font-family: $font-family, sans-serif !important;
+  }
+  font-family: $font-family, sans-serif !important;
 }

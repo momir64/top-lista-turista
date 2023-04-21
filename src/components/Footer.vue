@@ -22,7 +22,11 @@
         <br />
         <span id="text2">
           By
-          <a href="http://moma.rs" class="text-decoration-none text-white">
+          <a
+            target="_blank"
+            href="http://moma.rs"
+            class="text-decoration-none text-white"
+          >
             moma
           </a>
         </span>
