@@ -28,7 +28,7 @@
     >
       PRIJAVA
     </v-btn>
-    <v-dialog v-model="dialog" width="auto">
+    <v-dialog v-model="dialog" width="auto" class="ma-n2">
       <login v-on:close="dialog = false"></login>
     </v-dialog>
   </v-app-bar>

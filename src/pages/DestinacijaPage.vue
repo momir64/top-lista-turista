@@ -75,9 +75,7 @@
                 </v-card>
               </v-col>
             </v-row>
-            <v-row>
-              <v-col> </v-col>
-            </v-row>
+            <v-row> <v-col> </v-col> </v-row>
             <v-row>
               <v-card class="kartica pt-7 px-9 px-md-15 mx-3 mt-1">
                 <div class="text-opis-naslov font-weight-bold mb-10 mt-7">
