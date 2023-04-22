@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-scroll="check">
     <navigation :color="'secondary'" :flat="false" />
     <v-main>
       <v-container id="content_holder_container">
@@ -106,6 +106,21 @@
           </v-container>
         </v-card>
       </v-container>
+      <v-scale-transition>
+        <v-btn
+          fab
+          v-show="fab"
+          dark
+          fixed
+          bottom
+          right
+          class="topFab"
+          color="#bfb7a7"
+          icon="mdi-arrow-up"
+          @click="toTop"
+        >
+        </v-btn>
+      </v-scale-transition>
     </v-main>
     <foote :mediaLinks="false" />
   </v-app>
@@ -215,7 +230,7 @@
 
 <script>
 import navigation from "@/components/NavigationBar";
-import foote from "@/components/Footer";
+import foote from "@/components/MediaFooter";
 
 export default {
   components: {
@@ -224,10 +239,17 @@ export default {
   },
   data: () => ({
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
+    fab: null,
     agencija: {},
     destinacije: [],
   }),
   methods: {
+    toTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    check() {
+      this.fab = window.pageYOffset > 60;
+    },
     async load_agencije() {
       let code, message;
       try {

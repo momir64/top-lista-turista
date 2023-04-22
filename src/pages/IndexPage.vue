@@ -22,6 +22,7 @@
         fixed
         bottom
         right
+        class="topFab"
         color="#bfb7a7"
         icon="mdi-arrow-up"
         @click="toTop"
@@ -61,19 +62,12 @@
     repeat: no-repeat;
   }
 }
-
-.v-btn[fab] {
-  position: fixed;
-  z-index: 1000;
-  bottom: 30px;
-  right: 30px;
-}
 </style>
 
 <script>
 import navigation from "@/components/NavigationBar";
 import agencije from "@/components/SveAgencije";
-import foote from "@/components/Footer";
+import foote from "@/components/MediaFooter";
 
 export default {
   components: {

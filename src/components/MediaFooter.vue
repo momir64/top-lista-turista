@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-footer>
     <v-card flat tile class="secondary text-white text-center">

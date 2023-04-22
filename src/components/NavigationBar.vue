@@ -24,11 +24,13 @@
       variant="outlined"
       size="large"
       append-icon="mdi-account-circle"
-      @click="$router.push('/error')"
+      @click="dialog = true"
     >
-      <!------------------------------------------------------------Dodati login------------------------------------------------------------>
       PRIJAVA
     </v-btn>
+    <v-dialog v-model="dialog" width="auto">
+      <login v-on:close="dialog = false"></login>
+    </v-dialog>
   </v-app-bar>
 </template>
 
@@ -76,10 +78,15 @@
 </style>
 
 <script>
+import login from "@/components/LoginDialog";
 export default {
+  components: {
+    login,
+  },
   data: () => ({
     isXs: false,
     ok: "mesaad",
+    dialog: false,
   }),
   props: {
     color: String,

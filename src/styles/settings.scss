@@ -31,3 +31,10 @@ $font-family: "Source Sans Pro";
   border-radius: 8px;
   background-color: #fffdf9;
 }
+
+.topFab {
+  position: fixed;
+  z-index: 999;
+  bottom: 30px;
+  right: 30px;
+}

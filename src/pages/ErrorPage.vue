@@ -49,7 +49,7 @@ pre {
 
 <script>
 import navigation from "@/components/NavigationBar";
-import foote from "@/components/Footer";
+import foote from "@/components/MediaFooter";
 
 export default {
   components: {
