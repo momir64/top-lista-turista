@@ -6,7 +6,7 @@
     >
       <v-container fluid>
         <v-row>
-          <v-col id="card_pretraga_col">
+          <v-col id="card_pretraga_col">            
             <v-card
               id="card_pretraga"
               class="mb-15 d-flex"
@@ -14,13 +14,19 @@
               variant="outlined"
             >
               <div id="izbornik">
-                <v-select :items="opcije" v-model="selektovana" variant="solo">
+                <v-select
+                  bg-color="#fffdf9"
+                  :items="opcije"
+                  v-model="selektovana"
+                  variant="solo"
+                >
                   <template v-slot:selection="{ item }">
                     <span id="izbor">{{ item.title }}</span>
                   </template>
                 </v-select>
               </div>
               <v-text-field
+                bg-color="#fffdf9"
                 single-line
                 id="pretraga"
                 label="Pretraga"
@@ -83,11 +89,6 @@
   padding-bottom: 22px;
   font-size: 16px;
 }
-.kartica {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
-  background-color: #f9f2e3;
-  border-radius: 8px;
-}
 #izbornik {
   transition: 0.11s;
   width: 160px;
@@ -99,14 +100,13 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   margin-right: auto !important;
   margin-left: auto !important;
-  background-color: #fff;
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 65vw;
   margin-top: 34px;
 }
 #content_holder {
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
-  background-color: #fffbf5;
+  background-color: #f8f0e0;
   border-radius: 0;
 }
 #content_holder_container {

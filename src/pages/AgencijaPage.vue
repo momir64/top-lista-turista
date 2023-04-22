@@ -9,7 +9,7 @@
         >
           <v-container fluid>
             <v-row>
-              <v-col cols="12" md="6">
+              <v-col cols="12" md="6" class="coll">
                 <v-card class="kartica">
                   <v-img
                     id="imgag"
@@ -20,7 +20,7 @@
                   ></v-img
                 ></v-card>
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12" md="6" class="colr">
                 <v-card id="info" class="kartica" height="400px">
                   <div class="text-h1 font-weight-bold mt-7 mb-sm-3">
                     {{ agencija.naziv }}
@@ -28,7 +28,9 @@
                   <div class="text-h4 mb-n2 mb-sm-n1">{{ agencija.ulica }}</div>
                   <div class="text-h4 mb-n2 mb-sm-n1">{{ agencija.grad }}</div>
                   <div class="text-h4 mb-n2 mb-sm-n1">{{ agencija.email }}</div>
-                  <div class="text-h4 mb-n2 mb-sm-n1">{{ agencija.telefon }}</div>
+                  <div class="text-h4 mb-n2 mb-sm-n1">
+                    {{ agencija.telefon }}
+                  </div>
                   <div class="text-h5 mt-9">
                     Osnovana {{ agencija.osnovana }}. godine
                   </div>
@@ -49,51 +51,55 @@
                 md="6"
                 lg="4"
               >
-                <v-card class="kartica">
-                  <v-img
-                    :src="destinacija.slike[0]"
-                    class="align-end"
-                    gradient="to bottom, rgba(0,0,0,0.05), rgba(0,0,0,.4)"
-                    height="280px"
-                    cover
-                  >
-                  </v-img>
-                  <v-card-title class="kartica_naslov">{{
-                    destinacija.naziv
-                  }}</v-card-title>
-                  <v-card-text
-                    class="kartica_tekst text-capitalize text-left px-5"
-                  >
-                    <v-icon
-                      class="ikona"
-                      size="30px"
-                      icon="mdi-bus"
-                      v-if="destinacija.prevoz == 'autobus'"
-                    ></v-icon>
-                    <v-icon
-                      class="ikona2"
-                      size="30px"
-                      icon="mdi-car"
-                      v-else-if="destinacija.prevoz == 'sopstveni'"
-                    ></v-icon>
-                    <v-icon
-                      class="ikona"
-                      size="30px"
-                      icon="mdi-airplane"
-                      v-else-if="destinacija.prevoz == 'avion'"
-                    ></v-icon>
-                    <v-icon
-                      class="ikona"
-                      size="30px"
-                      icon="mdi-train-car"
-                      v-else
-                    ></v-icon>
-                    {{ destinacija.prevoz }}
-                    <span class="pr-2 cena" style="float: right">
-                      {{ Math.round(destinacija.cena / 117.32) }} €</span
+                <router-link
+                  style="text-decoration: none; color: inherit"
+                  :to="`/destinacija/${destinacija.naziv}`"
+                  ><v-card class="kartica">
+                    <v-img
+                      :src="destinacija.slike[0]"
+                      class="align-end"
+                      gradient="to bottom, rgba(0,0,0,0.05), rgba(0,0,0,.4)"
+                      height="280px"
+                      cover
                     >
-                  </v-card-text>
-                </v-card>
+                    </v-img>
+                    <v-card-title class="kartica_naslov">{{
+                      destinacija.naziv
+                    }}</v-card-title>
+                    <v-card-text
+                      class="kartica_tekst text-capitalize text-left px-5"
+                    >
+                      <v-icon
+                        class="ikona"
+                        size="30px"
+                        icon="mdi-bus"
+                        v-if="destinacija.prevoz == 'autobus'"
+                      ></v-icon>
+                      <v-icon
+                        class="ikona2"
+                        size="30px"
+                        icon="mdi-car"
+                        v-else-if="destinacija.prevoz == 'sopstveni'"
+                      ></v-icon>
+                      <v-icon
+                        class="ikona"
+                        size="30px"
+                        icon="mdi-airplane"
+                        v-else-if="destinacija.prevoz == 'avion'"
+                      ></v-icon>
+                      <v-icon
+                        class="ikona"
+                        size="30px"
+                        icon="mdi-train-car"
+                        v-else
+                      ></v-icon>
+                      {{ destinacija.prevoz }}
+                      <span class="pr-2 cena" style="float: right">
+                        {{ Math.round(destinacija.cena / 117.32) }} €</span
+                      >
+                    </v-card-text>
+                  </v-card>
+                </router-link>
               </v-col>
             </v-row>
             <div style="height: 60px; width: 100%"></div>
@@ -159,15 +165,10 @@
   padding-bottom: 21px;
   font-size: 26px;
 }
-.kartica {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
-  border-radius: 8px;
-  background-color: #f9f0e0;
-}
 #content_holder {
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
   min-height: calc(100vh - 80px - 90px);
-  background-color: #fffbf5;
+  background-color: #f8f0e0;
   padding-top: 45px;
   border-radius: 0;
 }
@@ -178,10 +179,19 @@
   padding-bottom: 0;
   max-width: 100vw;
 }
+
 @media screen and (max-width: 1500px) {
   #content_holder_container {
     padding-left: 8vw !important;
     padding-right: 8vw !important;
+  }
+}
+@media screen and (min-width: 960px) {
+  .coll {
+    padding-right: max(1.1vw, 14px);
+  }
+  .colr {
+    padding-left: max(1.1vw, 14px);
   }
 }
 @media screen and (max-width: 850px) {

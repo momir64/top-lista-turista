@@ -25,3 +25,9 @@ $font-family: "Source Sans Pro";
   }
   font-family: $font-family, sans-serif !important;
 }
+
+.kartica {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  background-color: #fffdf9;
+}
