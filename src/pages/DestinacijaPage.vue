@@ -123,6 +123,9 @@
 }
 .text-opis {
   font-size: clamp(1.18em, 3vw, 1.8em) !important;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 }
 .text-osobe {
   font-size: clamp(1em, 3vw, 1.5em) !important;
