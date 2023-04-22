@@ -9,12 +9,13 @@
         >
           <v-container fluid>
             <v-row>
-              <v-col cols="12" lg="8">
+              <v-col cols="12" md="8" class="coll">
                 <v-card class="kartica">
                   <v-carousel
                     cycle
-                    color="#fffdf9"
+                    id="galerija"
                     height="600px"
+                    color="#fffdf9"
                     show-arrows="hover"
                     :key="destinacija.id"
                     hide-delimiter-background
@@ -28,19 +29,23 @@
                   </v-carousel>
                 </v-card>
               </v-col>
-              <v-col cols="12" lg="4">
-                <v-card id="info" class="kartica" height="600px">
-                  <div class="text-h4 mb-n2 mb-sm-n1">
+              <v-col cols="12" md="4" class="colr">
+                <v-card
+                  id="info"
+                  class="kartica px-5 d-flex flex-column"
+                  height="600px"
+                >
+                  <div class="text-tip mt-12">
                     {{ destinacija.tip }}
                   </div>
-                  <div class="text-h1 font-weight-bold mt-7 mb-sm-3">
+                  <div class="text-naziv font-weight-bold mt-2">
                     {{ destinacija.naziv }}
                   </div>
-                  <div class="cena">
+                  <div class="text-cena font-weight-bold my-auto">
                     {{ Math.round(destinacija.cena / 117.32) }} €
                   </div>
 
-                  <div class="kartica_tekst text-capitalize pa-10 ml-n2">
+                  <div class="text-prevoz text-capitalize mb-12">
                     <v-icon
                       class="ikona"
                       size="30px"
@@ -74,14 +79,16 @@
               <v-col> </v-col>
             </v-row>
             <v-row>
-              <v-card class="kartica pt-7 px-15">
-                <div class="text-h3 font-weight-bold mb-10 mt-7">
+              <v-card class="kartica pt-7 px-9 px-md-15 mx-3 mt-1">
+                <div class="text-opis-naslov font-weight-bold mb-10 mt-7">
                   Opis destinacije:
                 </div>
                 <v-responsive>
-                  <div class="text-h4 text-justify">{{ destinacija.opis }}</div>
+                  <div class="text-opis text-justify">
+                    {{ destinacija.opis }}
+                  </div>
                   <br />
-                  <div class="text-h5 mt-10 mb-7">
+                  <div class="text-osobe mt-10 mb-11">
                     Maksimalan broj osoba: {{ destinacija.maxOsoba }}
                   </div>
                 </v-responsive>
@@ -97,27 +104,43 @@
 </template>
 
 <style scoped lang="scss">
-.text-h1 {
-  font-size: clamp(2.4em, 4vw, 4rem) !important;
+.text-tip {
+  font-size: clamp(1.4em, 1.8vw, 3.5rem) !important;
 }
-.text-h4 {
+.text-naziv {
+  font-size: clamp(1.8em, 3.1vw, 4.5rem) !important;
+  line-height: calc(clamp(2.4em, 4vw, 4rem) * 0.4);
+}
+.text-cena {
+  font-size: clamp(2.4em, 5.5vw, 6rem) !important;
+  padding-bottom: 20px;
+}
+.text-prevoz {
   font-size: clamp(1.45em, 2.4vw, 1.8em) !important;
 }
-.text-h5 {
-  font-size: clamp(1.125em, 1.2vw, 1.3rem) !important;
+.text-opis-naslov {
+  font-size: clamp(1.7em, 4vw, 3em) !important;
 }
-@media screen and (max-width: 599.9px) {
-  .text-h1 {
-    margin-top: 6px !important;
+.text-opis {
+  font-size: clamp(1.18em, 3vw, 1.8em) !important;
+}
+.text-osobe {
+  font-size: clamp(1em, 3vw, 1.5em) !important;
+}
+@media screen and (max-width: 959.9px) {
+  .text-tip {
+    font-size: clamp(1.4em, 3vw, 2.5rem) !important;
   }
-  #imgag {
-    height: 250px !important;
+  .text-naziv {
+    font-size: clamp(2.4em, 6vw, 5rem) !important;
+    // line-height: calc(clamp(2.4em, 4vw, 4rem) * 0.4);
   }
-  #info {
-    height: 330px !important;
+  .text-cena {
+    font-size: clamp(4em, 10vw, 7rem) !important;
+    padding-bottom: 20px;
   }
-  #content_holder {
-    padding-top: 10px !important;
+  .text-prevoz {
+    font-size: clamp(1.45em, 4vw, 2.5em) !important;
   }
 }
 .cena {
@@ -131,18 +154,6 @@
 }
 .ikona2 {
   padding-bottom: 8px;
-}
-.kartica_naslov {
-  font-family: "Source Sans Pro" !important;
-  padding-bottom: 45px;
-  padding-top: 20px;
-  font-weight: 600;
-  font-size: 32px;
-}
-.kartica_tekst {
-  font-family: "Source Sans Pro" !important;
-  padding-bottom: 21px;
-  font-size: 26px;
 }
 #content_holder {
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
@@ -158,16 +169,77 @@
   padding-bottom: 0;
   max-width: 100vw;
 }
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1600px) {
   #content_holder_container {
     padding-left: 8vw !important;
     padding-right: 8vw !important;
+  }
+  #galerija,
+  #info {
+    height: 530px !important;
+  }
+}
+@media screen and (max-width: 1340px) {
+  #galerija,
+  #info {
+    height: 440px !important;
+  }
+}
+@media screen and (max-width: 599.9px) {
+  #content_holder {
+    padding-top: 20px;
+  }
+}
+@media screen and (min-width: 960px) {
+  .coll {
+    padding-right: max(1vw, 14px);
+  }
+  .colr {
+    padding-left: max(1vw, 14px);
+  }
+}
+@media screen and (max-width: 959.9px) {
+  .coll {
+    margin-bottom: 16px;
+  }
+  .colr {
+    margin-bottom: 50px;
+  }
+  .text-tip {
+    margin-top: 28px !important;
+  }
+  .text-prevoz {
+    margin-bottom: 28px !important;
+  }
+}
+@media screen and (max-width: 1160px) {
+  #galerija,
+  #info {
+    height: 400px !important;
   }
 }
 @media screen and (max-width: 850px) {
   #content_holder_container {
     padding-right: 0 !important;
     padding-left: 0 !important;
+  }
+  #galerija,
+  #info {
+    height: 400px !important;
+  }
+}
+@media screen and (max-width: 599.9px) {
+  #content_holder {
+    padding-top: 10px !important;
+  }
+  #galerija {
+    height: 230px !important;
+  }
+  #info {
+    height: 330px !important;
+  }
+  .coll {
+    margin-bottom: 3px;
   }
 }
 </style>

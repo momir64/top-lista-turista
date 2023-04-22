@@ -121,20 +121,6 @@
 .text-h5 {
   font-size: clamp(1.125em, 1.2vw, 1.3rem) !important;
 }
-@media screen and (max-width: 599.9px) {
-  .text-h1 {
-    margin-top: 6px !important;
-  }
-  #imgag {
-    height: 250px !important;
-  }
-  #info {
-    height: 330px !important;
-  }
-  #content_holder {
-    padding-top: 10px !important;
-  }
-}
 #ponudat {
   margin-top: 111px;
   margin-bottom: 20px;
@@ -186,6 +172,17 @@
     padding-right: 8vw !important;
   }
 }
+@media screen and (max-width: 850px) {
+  #content_holder_container {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+@media screen and (max-width: 959.9px) {
+  #content_holder {
+    padding-top: 20px;
+  }
+}
 @media screen and (min-width: 960px) {
   .coll {
     padding-right: max(1.1vw, 14px);
@@ -198,6 +195,20 @@
   #content_holder_container {
     padding-right: 0 !important;
     padding-left: 0 !important;
+  }
+}
+@media screen and (max-width: 599.9px) {
+  .text-h1 {
+    margin-top: 6px !important;
+  }
+  #imgag {
+    height: 250px !important;
+  }
+  #info {
+    height: 330px !important;
+  }
+  #content_holder {
+    padding-top: 10px !important;
   }
 }
 </style>
