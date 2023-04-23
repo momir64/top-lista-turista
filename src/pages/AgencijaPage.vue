@@ -284,8 +284,11 @@ export default {
       } catch (e) {
         console.log(e);
         message = `Firebase: ${code}\u00A0${message}`;
-        code = "Ooops";
-        this.$router.push({ path: "/error", state: { code, message } });
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
       }
     },
     async load_destinacije(destinacijeId) {
@@ -317,8 +320,11 @@ export default {
       } catch (e) {
         console.log(e);
         message = `Firebase: ${code}\u00A0${message}`;
-        code = "Ooops";
-        this.$router.push({ path: "/error", state: { code, message } });
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
       }
     },
   },
