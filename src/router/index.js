@@ -18,6 +18,10 @@ const routes = [
     path: '/destinacija/:naziv',
     component: () => import('@/pages/DestinacijaPage.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/error'
+  },
 ]
 
 const router = createRouter({
