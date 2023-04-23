@@ -34,7 +34,7 @@
   </v-app-bar>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .v-toolbar {
   transition: 0.2s;
   height: 80px;
