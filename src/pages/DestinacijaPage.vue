@@ -309,6 +309,7 @@ export default {
           }
           if (Object.keys(this.destinacija).length > 0) break;
         }
+        if (!this.destinacija.id) throw new Error("Destinacija nije pronađena");
       } catch (e) {
         console.log(e);
         message = `Firebase: ${code}\u00A0${message}`;
