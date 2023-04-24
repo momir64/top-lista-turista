@@ -23,6 +23,10 @@ const routes = [
     component: () => import('@/pages/AdminPage.vue'),
   },
   {
+    path: '/admin_panel',
+    redirect: '/admin_panel/agencije',
+  },
+  {
     path: '/admin_panel/korisnici',
     component: () => import('@/pages/KorisniciPage.vue'),
   },
@@ -37,10 +41,6 @@ const routes = [
   {
     path: '/admin_panel/edit_korisnik/:korisnik',
     component: () => import('@/pages/EditKorisnikPage.vue'),
-  },
-  {
-    path: '/destinacija/:naziv',
-    component: () => import('@/pages/DestinacijaPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

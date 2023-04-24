@@ -188,8 +188,10 @@ export default {
         !this.loginLozinka ||
         this.loginEmail.trim().length == 0 ||
         this.loginLozinka.trim().length == 0;
-      this.email = "";
-      this.lozinka = "";
+      if (this.loginEmail == "admin" && this.loginLozinka == "admin")
+        this.$router.push("/admin_panel");
+      this.loginEmail = "";
+      this.loginLozinka = "";
     },
     registracija() { 
 

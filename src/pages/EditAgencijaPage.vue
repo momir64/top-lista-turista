@@ -7,7 +7,7 @@
           id="content_holder"
           class="align-center text-center px-xs-3 px-sm-5 px-md-11"
         >
-          agencije
+          Edit agencija
         </v-card>
       </v-container>
     </v-main>
