@@ -19,6 +19,30 @@ const routes = [
     component: () => import('@/pages/DestinacijaPage.vue'),
   },
   {
+    path: '/admin_panel/agencije',
+    component: () => import('@/pages/AdminPage.vue'),
+  },
+  {
+    path: '/admin_panel/korisnici',
+    component: () => import('@/pages/KorisniciPage.vue'),
+  },
+  {
+    path: '/admin_panel/edit_agencija/:agencija',
+    component: () => import('@/pages/EditAgencijaPage.vue'),
+  },
+  {
+    path: '/admin_panel/edit_destinacija/:destinacija',
+    component: () => import('@/pages/EditDestinacijaPage.vue'),
+  },
+  {
+    path: '/admin_panel/edit_korisnik/:korisnik',
+    component: () => import('@/pages/EditKorisnikPage.vue'),
+  },
+  {
+    path: '/destinacija/:naziv',
+    component: () => import('@/pages/DestinacijaPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/error'
   },

@@ -5,7 +5,7 @@
         <v-btn
           v-for="(icon, i) in icons"
           :key="i"
-          class="mx-4"
+          class="mx-3 mx-sm-4"
           :href="icon.link"
           target="_blank"
           icon
@@ -16,7 +16,10 @@
       <!-- <v-divider></v-divider> -->
       <v-card-text>
         <span id="text1"
-          >{{ new Date().getFullYear() }} — Top Lista Turista</span
+          >{{ new Date().getFullYear() }} — <a
+            href="http://tlt.moma.rs"
+            class="text-decoration-none text-white"
+          >Top Lista Turista</a></span
         >
         <br />
         <span id="text2">

@@ -25,9 +25,23 @@
       size="large"
       append-icon="mdi-account-circle"
       @click="dialog = true"
+      v-if="$vuetify.display.width > 370"
     >
       PRIJAVA
     </v-btn>
+
+    <v-btn
+      class="ma-4"
+      variant="outlined"
+      height="44px"
+      min-width="50px"
+      width="50px"
+      @click="dialog = true"
+      v-else
+    >
+      <v-icon icon="mdi-account-circle" size="24px"></v-icon>
+    </v-btn>
+
     <v-dialog v-model="dialog" width="auto" class="ma-n2">
       <login v-on:close="dialog = false"></login>
     </v-dialog>
