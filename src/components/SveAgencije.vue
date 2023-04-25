@@ -8,12 +8,11 @@
         <v-row>
           <v-col id="card_pretraga_col">            
             <v-card
-              id="card_pretraga"
-              class="mb-15 d-flex"
+              class="card_pretraga mb-15 d-flex"
               height="56px"
               variant="outlined"
             >
-              <div id="izbornik">
+              <div class="izbornik">
                 <v-select
                   bg-color="#fffdf9"
                   :items="opcije"
@@ -89,14 +88,14 @@
   padding-bottom: 22px;
   font-size: 16px;
 }
-#izbornik {
+.izbornik {
   transition: 0.11s;
   width: 160px;
 }
 #izbor {
   padding-left: 17px;
 }
-#card_pretraga {
+.card_pretraga {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   margin-right: auto !important;
   margin-left: auto !important;
@@ -123,13 +122,13 @@
   }
 }
 @media screen and (max-width: 1200px) {
-  #card_pretraga {
+  .card_pretraga {
     width: 70vw;
     max-width: 975px;
   }
 }
 @media screen and (max-width: 850px) {
-  #card_pretraga {
+  .card_pretraga {
     width: 100%;
     max-width: 100%;
     margin-top: 15px !important;
@@ -144,8 +143,8 @@
     padding-left: 0 !important;
   }
 }
-@media screen and (max-width: 599px) {
-  #izbornik {
+@media screen and (max-width: 599.9px) {
+  .izbornik {
     transition: 0.11s;
     width: 140px;
   }

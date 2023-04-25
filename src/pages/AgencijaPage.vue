@@ -37,9 +37,51 @@
                 </v-card>
               </v-col>
             </v-row>
-            <v-row>
+            <!-- <v-row>
               <v-col>
                 <div id="ponudat">Destinacije u ponudi:</div>
+              </v-col>
+            </v-row> -->
+            <v-row class="mt-15">
+              <v-col id="card_pretraga_col">
+                <v-card
+                  class="card_pretraga mt-15 mb-5 d-flex"
+                  height="56px"
+                  variant="outlined"
+                >
+                  <div class="izbornik">
+                    <v-select
+                      bg-color="#fffdf9"
+                      :items="opcijeTip"
+                      v-model="selektovanaTip"
+                      variant="solo"
+                    >
+                      <template v-slot:selection="{ item }">
+                        <span id="izbor">{{ item.title }}</span>
+                      </template>
+                    </v-select>
+                  </div>
+                  <div class="izbornik2">
+                    <v-select
+                      bg-color="#fffdf9"
+                      :items="opcijePrevoz"
+                      v-model="selektovanaPrevoz"
+                      variant="solo"
+                    >
+                      <template v-slot:selection="{ item }">
+                        <span id="izbor">{{ item.title }}</span>
+                      </template>
+                    </v-select>
+                  </div>
+                  <v-text-field
+                    bg-color="#fffdf9"
+                    single-line
+                    id="pretraga"
+                    label="Pretraga destinacija"
+                    variant="solo"
+                    append-inner-icon="mdi-magnify"
+                  ></v-text-field>
+                </v-card>
               </v-col>
             </v-row>
             <v-row>
@@ -127,6 +169,27 @@
 </template>
 
 <style scoped lang="scss">
+.izbornik {
+  transition: 0.11s;
+  border-radius: 0;
+  width: 190px;
+}
+.izbornik2 {
+  transition: 0.11s;
+  border-radius: 0;
+  width: 205px;
+}
+#izbor {
+  padding-left: 10px;
+}
+.card_pretraga {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  margin-right: auto !important;
+  margin-left: auto !important;
+  border-radius: 10px;
+  max-width: 65vw;
+  margin-top: 34px;
+}
 .text-h1 {
   font-size: clamp(2.4em, 4vw, 4rem) !important;
 }
@@ -137,8 +200,8 @@
   font-size: clamp(1.125em, 1.2vw, 1.3rem) !important;
 }
 #ponudat {
-  margin-top: 111px;
-  margin-bottom: 20px;
+  margin-top: 85px;
+  margin-bottom: 15px;
   font-weight: 600;
   font-size: min(60px, 7.5vw);
 }
@@ -187,7 +250,27 @@
     padding-right: 8vw !important;
   }
 }
+@media screen and (max-width: 1200px) {
+  .card_pretraga {
+    width: 73vw;
+    max-width: 73vw;
+  }
+  #content_holder_container {
+    padding-right: 6vw !important;
+    padding-left: 6vw !important;
+  }
+}
 @media screen and (max-width: 850px) {
+  .card_pretraga {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 15px !important;
+  }
+  #card_pretraga_col {
+    transition: all 0.11s, margin-top 0s;
+    margin-top: 0;
+    padding-top: 0;
+  }
   #content_holder_container {
     padding-right: 0 !important;
     padding-left: 0 !important;
@@ -204,12 +287,6 @@
   }
   .colr {
     padding-left: max(1.1vw, 14px);
-  }
-}
-@media screen and (max-width: 850px) {
-  #content_holder_container {
-    padding-right: 0 !important;
-    padding-left: 0 !important;
   }
 }
 @media screen and (max-width: 599.9px) {
@@ -240,6 +317,10 @@ export default {
   data: () => ({
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
     fab: null,
+    selektovanaTip: ["Letovanje"],
+    opcijeTip: ["Letovanje", "Zimovanje", "Gradovi Evrope"],
+    selektovanaPrevoz: ["Avion"],
+    opcijePrevoz: ["Avion", "Autobus", "Sopstveni prevoz"],
     agencija: {},
     destinacije: [],
   }),
