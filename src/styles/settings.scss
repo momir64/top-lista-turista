@@ -9,6 +9,10 @@
 //   $color-pack: false
 // );
 
+:root {
+  color-scheme: light dark;
+}
+
 @font-face {
   font-family: "Times New Roman";
   src: url("@/assets/times.ttf") format("opentype");
@@ -37,4 +41,8 @@ $font-family: "Source Sans Pro";
   z-index: 999;
   bottom: 30px;
   right: 30px;
+}
+
+.v-input__details {
+  padding-left: 16px;
 }

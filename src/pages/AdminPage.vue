@@ -5,19 +5,10 @@
       <v-container id="content_holder_container">
         <v-card
           id="content_holder"
-          class="align-center text-center px-4 px-sm-10 px-md-16"
+          class="align-center text-center px-4 px-sm-14 px-md-16"
         >
-          <v-btn
-            class="mb-9 kartica"
-            height="50px"
-            width="270px"
-            variant="outlined"
-            prependIcon="mdi-plus"
-          >
-            dodaj novu agenciju
-          </v-btn>
-
-          <v-card class="kartica" variant="outlined">
+          <v-card class="kartica mb-9" variant="outlined">
+            <div class="text-h4 font-weight-bold mb-n0 mt-7">Agencije:</div>
             <v-list class="px-3 px-sm-6 py-13" bg-color="#fffdf9" lines="one">
               <template v-for="(agencija, i) in agencije" :key="agencija.id">
                 <v-hover>
@@ -38,7 +29,7 @@
                               font-family: monospace !important;
                             "
                           >
-                            {{ (i + 1) * (i + 1) * (i + 1) }}
+                            {{ i + 1 }}
                           </span>
                           <span class="">
                             {{ agencija.naziv }}
@@ -49,9 +40,7 @@
                         <v-btn
                           variant="plain"
                           @click="
-                            $router.push(
-                              '/admin_panel/agencija/' + agencija.naziv
-                            )
+                            $router.push('/admin_panel/agencija/' + agencija.id)
                           "
                           icon="mdi-pencil"
                         ></v-btn>
@@ -77,9 +66,20 @@
               </template>
             </v-list>
           </v-card>
+
+          <v-btn
+            class="px-10 kartica mt-1"
+            height="50px"
+            variant="outlined"
+            prependIcon="mdi-plus"
+            @click="$router.push('/admin_panel/agencija/')"
+          >
+            dodaj novu agenciju
+          </v-btn>
         </v-card>
       </v-container>
     </v-main>
+
     <v-scale-transition>
       <v-btn
         fab
@@ -129,6 +129,9 @@
 </template>
 
 <style scoped lang="scss">
+.text-opis-naslov {
+  font-size: clamp(1.7em, 4vw, 3em) !important;
+}
 .kartica_dijalog {
   background-color: #fffdf9 !important;
   border-radius: 8px !important;
@@ -141,7 +144,7 @@
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
   min-height: calc(100vh - 80px - 90px);
   background-color: #f8f0e0;
-  padding-top: 45px;
+  padding-top: 56px;
   padding-bottom: 64px;
   border-radius: 0;
 }
@@ -156,6 +159,12 @@
   #content_holder_container {
     padding-left: 15vw !important;
     padding-right: 15vw !important;
+  }
+}
+@media screen and (max-width: 959.9px) {
+  #content_holder_container {
+    padding-left: 10vw !important;
+    padding-right: 10vw !important;
   }
 }
 @media screen and (max-width: 599.9px) {

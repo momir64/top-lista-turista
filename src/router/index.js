@@ -31,15 +31,15 @@ const routes = [
     component: () => import('@/pages/KorisniciPage.vue'),
   },
   {
-    path: '/admin_panel/agencija/:agencija',
+    path: '/admin_panel/agencija/:id?',
     component: () => import('@/pages/EditAgencijaPage.vue'),
   },
   {
-    path: '/admin_panel/destinacija/:destinacija',
+    path: '/admin_panel/destinacija/:id?',
     component: () => import('@/pages/EditDestinacijaPage.vue'),
   },
   {
-    path: '/admin_panel/korisnik/:korisnik',
+    path: '/admin_panel/korisnik/:id?',
     component: () => import('@/pages/EditKorisnikPage.vue'),
   },
   {

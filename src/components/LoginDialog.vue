@@ -78,7 +78,7 @@
   </v-card>
 
   <v-card class="kartica_registracija" height="100%" v-else>
-    <v-form @submit.prevent="registracija" style="height: 100%">
+    <v-form @submit.prevent="registracija" validate-on="blur" style="height: 100%">
       <v-row justify="center" class="mb-3" no-gutters>
         <v-col cols="12" class="mb-n1">
           <v-btn
