@@ -37,12 +37,7 @@
                 </v-card>
               </v-col>
             </v-row>
-            <!-- <v-row>
-              <v-col>
-                <div id="ponudat">Destinacije u ponudi:</div>
-              </v-col>
-            </v-row> -->
-            <v-row class="mt-15">
+            <v-row class="mt-15" v-if="$vuetify.display.mdAndUp">
               <v-col id="card_pretraga_col">
                 <v-card
                   class="card_pretraga mt-15 mb-5 d-flex"
@@ -54,7 +49,8 @@
                       bg-color="#fffdf9"
                       :items="opcijeTip"
                       v-model="selektovanaTip"
-                      variant="solo"
+                      style="border-right: 1px solid #bbb"
+                      variant="x"
                     >
                       <template v-slot:selection="{ item }">
                         <span id="izbor">{{ item.title }}</span>
@@ -66,7 +62,8 @@
                       bg-color="#fffdf9"
                       :items="opcijePrevoz"
                       v-model="selektovanaPrevoz"
-                      variant="solo"
+                      style="border-right: 1px solid #bbb"
+                      variant="x"
                     >
                       <template v-slot:selection="{ item }">
                         <span id="izbor">{{ item.title }}</span>
@@ -76,11 +73,118 @@
                   <v-text-field
                     bg-color="#fffdf9"
                     single-line
-                    id="pretraga"
+                    class="pretraga"
                     label="Pretraga destinacija"
-                    variant="solo"
+                    variant="x"
+                    v-model="pretraga"
                     append-inner-icon="mdi-magnify"
                   ></v-text-field>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row class="mt-15 mt-md-1" v-else-if="$vuetify.display.smAndUp">
+              <v-col id="card_pretraga_col">
+                <v-card
+                  class="card_pretraga mt-15 mb-5 d-flex"
+                  height="111px"
+                  variant="outlined"
+                >
+                  <v-row no-gutters>
+                    <v-col cols="12" class="mb-n6">
+                      <v-text-field
+                        bg-color="#fffdf9"
+                        single-line
+                        label="Pretraga destinacija"
+                        variant="x"
+                        v-model="pretraga"
+                        class="pretraga"
+                        append-inner-icon="mdi-magnify"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="6"
+                      style="border-top: 1px solid #bbb; z-index: 999"
+                      ><v-select
+                        bg-color="#fffdf9"
+                        :items="opcijeTip"
+                        v-model="selektovanaTip"
+                        style="border-right: 1px solid #bbb"
+                        variant="x"
+                      >
+                        <template v-slot:selection="{ item }">
+                          <span id="izbor">{{ item.title }}</span>
+                        </template>
+                      </v-select>
+                    </v-col>
+                    <v-col
+                      cols="6"
+                      style="border-top: 1px solid #bbb; z-index: 999"
+                    >
+                      <v-select
+                        bg-color="#fffdf9"
+                        :items="opcijePrevoz"
+                        v-model="selektovanaPrevoz"
+                        variant="x"
+                      >
+                        <template v-slot:selection="{ item }">
+                          <span id="izbor">{{ item.title }}</span>
+                        </template>
+                      </v-select>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row class="mt-15 mt-md-1" v-else>
+              <v-col id="card_pretraga_col">
+                <v-card
+                  class="card_pretraga mt-15 mb-5 d-flex"
+                  height="165px"
+                  variant="outlined"
+                >
+                  <v-row no-gutters>
+                    <v-col cols="12" class="mb-n6">
+                      <v-text-field
+                        bg-color="#fffdf9"
+                        single-line
+                        label="Pretraga destinacija"
+                        variant="x"
+                        v-model="pretraga"
+                        class="pretraga"
+                        append-inner-icon="mdi-magnify"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      class="mb-n6"
+                      style="border-top: 1px solid #bbb; z-index: 999"
+                      ><v-select
+                        bg-color="#fffdf9"
+                        :items="opcijeTip"
+                        v-model="selektovanaTip"
+                        variant="x"
+                      >
+                        <template v-slot:selection="{ item }">
+                          <span id="izbor">{{ item.title }}</span>
+                        </template>
+                      </v-select>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      style="border-top: 1px solid #bbb; z-index: 999"
+                    >
+                      <v-select
+                        bg-color="#fffdf9"
+                        :items="opcijePrevoz"
+                        v-model="selektovanaPrevoz"
+                        variant="x"
+                      >
+                        <template v-slot:selection="{ item }">
+                          <span id="izbor">{{ item.title }}</span>
+                        </template>
+                      </v-select>
+                    </v-col>
+                  </v-row>
                 </v-card>
               </v-col>
             </v-row>
@@ -170,14 +274,14 @@
 
 <style scoped lang="scss">
 .izbornik {
-  transition: 0.11s;
+  //transition: 0.11s;
   border-radius: 0;
   width: 190px;
 }
 .izbornik2 {
-  transition: 0.11s;
+  //transition: 0.11s;
   border-radius: 0;
-  width: 205px;
+  width: 204px;
 }
 #izbor {
   padding-left: 10px;
@@ -252,8 +356,8 @@
 }
 @media screen and (max-width: 1200px) {
   .card_pretraga {
-    width: 73vw;
-    max-width: 73vw;
+    width: 72.1vw;
+    max-width: 72.1vw;
   }
   #content_holder_container {
     padding-right: 6vw !important;
@@ -267,9 +371,9 @@
     margin-top: 15px !important;
   }
   #card_pretraga_col {
-    transition: all 0.11s, margin-top 0s;
-    margin-top: 0;
-    padding-top: 0;
+    //transition: all 0.11s, margin-top 0s;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
   #content_holder_container {
     padding-right: 0 !important;
@@ -279,6 +383,15 @@
 @media screen and (max-width: 959.9px) {
   #content_holder {
     padding-top: 20px;
+  }
+  .card_pretraga {
+    width: 100%;
+    max-width: 100%;
+  }
+  #card_pretraga_col {
+    //transition: all 0.11s, margin-top 0s;
+    margin-top: -40px;
+    padding-top: 0;
   }
 }
 @media screen and (min-width: 960px) {
@@ -323,6 +436,7 @@ export default {
     opcijePrevoz: ["Avion", "Autobus", "Sopstveni prevoz"],
     agencija: {},
     destinacije: [],
+    pretraga: "",
   }),
   methods: {
     toTop() {

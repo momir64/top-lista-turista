@@ -47,6 +47,22 @@ $font-family: "Source Sans Pro";
   padding-left: 16px;
 }
 
-.card_pretraga  .v-field {
+.card_pretraga .v-field {
   border-radius: 0;
+}
+
+.pretraga .v-field-label {
+  padding-left: 10px;
+}
+.pretraga .v-field--active .v-field__input {
+  padding-left: 26px !important;
+}
+
+@media screen and (min-width: 444px) {
+  .pretragaHome .v-field-label {
+    padding-left: 10px;
+  }
+  .pretragaHome .v-field--active .v-field__input {
+    padding-left: 26px !important;
+  }
 }

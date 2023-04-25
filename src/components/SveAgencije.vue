@@ -12,12 +12,12 @@
               height="56px"
               variant="outlined"
             >
-              <div class="izbornik">
+              <div class="izbornik" style="border-right: 1px solid #bbb ;">
                 <v-select
                   bg-color="#fffdf9"
                   :items="opcije"
                   v-model="selektovana"
-                  variant="solo"
+                  variant="x"
                 >
                   <template v-slot:selection="{ item }">
                     <span id="izbor">{{ item.title }}</span>
@@ -27,9 +27,9 @@
               <v-text-field
                 bg-color="#fffdf9"
                 single-line
-                id="pretraga"
+                class="pretragaHome"
                 label="Pretraga"
-                variant="solo"
+                variant="x"
                 append-inner-icon="mdi-magnify"
               ></v-text-field>
             </v-card>
@@ -89,7 +89,7 @@
   font-size: 16px;
 }
 .izbornik {
-  transition: 0.11s;
+  //transition: 0.11s;
   width: 160px;
 }
 #izbor {
@@ -134,7 +134,7 @@
     margin-top: 15px !important;
   }
   #card_pretraga_col {
-    transition: all 0.11s, margin-top 0s;
+    //transition: all 0.11s, margin-top 0s;
     margin-top: 0;
     padding-top: 0;
   }
@@ -145,7 +145,7 @@
 }
 @media screen and (max-width: 599.9px) {
   .izbornik {
-    transition: 0.11s;
+    //transition: 0.11s;
     width: 140px;
   }
   #izbor {
