@@ -105,15 +105,15 @@
             Registracija
           </div>
         </v-col>
-        <v-col cols="12" sm="4"> <v-text-field :rules="[required, nameCheck].flat()"    class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 ml-sm-4 ml-md-8" variant="outlined" bg-color="#fffdf9" label="Ime"            v-model="ime"></v-text-field> </v-col>
-        <v-col cols="12" sm="4"> <v-text-field :rules="[required, nameCheck].flat()"    class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1"                 variant="outlined" bg-color="#fffdf9" label="Prezime"        v-model="prezime"></v-text-field> </v-col>
-        <v-col cols="12" sm="4"> <v-text-field :rules="required"                        class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 mr-sm-4 mr-md-8" variant="outlined" bg-color="#fffdf9" label="Datum rođenja"  v-model="datum" type="date"></v-text-field> </v-col>
+        <v-col cols="12" sm="4"> <v-text-field :rules="[required].flat()"               class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 ml-sm-4 ml-md-8" variant="outlined" bg-color="#fffdf9" label="Ime"            v-model="ime"></v-text-field> </v-col>
+        <v-col cols="12" sm="4"> <v-text-field :rules="[required].flat()"               class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1"                 variant="outlined" bg-color="#fffdf9" label="Prezime"        v-model="prezime"></v-text-field> </v-col>
+        <v-col cols="12" sm="4"> <v-text-field :rules="[required, dateCheck].flat()"    class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 mr-sm-4 mr-md-8" variant="outlined" bg-color="#fffdf9" label="Datum rođenja"  v-model="datum" type="date"></v-text-field> </v-col>
         <v-col cols="12" sm="6"> <v-text-field :rules="[required, nameCheck].flat()"    class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 ml-sm-4 ml-md-8" variant="outlined" bg-color="#fffdf9" label="Korisničko ime" v-model="korIme "></v-text-field> </v-col>
-        <v-col cols="12" sm="6"> <v-text-field :rules="[required, passCheck].flat()"    class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 mr-sm-4 mr-md-8" variant="outlined" bg-color="#fffdf9" label="Lozinka"        v-model="lozinka" :type="lozinkaShow2 ? 'text' : 'password'" :append-inner-icon="lozinkaShow2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="lozinkaShow2 = !lozinkaShow2"></v-text-field> </v-col>
+        <v-col cols="12" sm="6"> <v-text-field :rules="[required, passCheck].flat()"    class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 mr-sm-4 mr-md-8" variant="outlined" bg-color="#fffdf9" label="Lozinka"        v-model="lozinka" autocomplete="new-password" :type="lozinkaShow2 ? 'text' : 'password'" :append-inner-icon="lozinkaShow2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="lozinkaShow2 = !lozinkaShow2"></v-text-field> </v-col>
         <v-col cols="12" sm="6"> <v-text-field :rules="[required, emailCheck].flat()"   class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 ml-sm-4 ml-md-8" variant="outlined" bg-color="#fffdf9" label="Email"          v-model="email"></v-text-field> </v-col>
         <v-col cols="12" sm="6"> <v-text-field :rules="[required, numericPhone].flat()" class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 mr-sm-4 mr-md-8" variant="outlined" bg-color="#fffdf9" label="Telefon"        v-model="telefon"></v-text-field> </v-col>    
-        <v-col cols="12" sm="5"> <v-text-field :rules="required"                        class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 ml-sm-4 ml-md-8" variant="outlined" bg-color="#fffdf9" label="Ulica i broj"   v-model="ulica"></v-text-field> </v-col>        
-        <v-col cols="12" sm="4"> <v-text-field :rules="required"                        class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1"                 variant="outlined" bg-color="#fffdf9" label="Grad"           v-model="grad"></v-text-field> </v-col>        
+        <v-col cols="12" sm="5"> <v-text-field :rules="[required].flat()"               class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 ml-sm-4 ml-md-8" variant="outlined" bg-color="#fffdf9" label="Ulica i broj"   v-model="ulica"></v-text-field> </v-col>        
+        <v-col cols="12" sm="4"> <v-text-field :rules="[required].flat()"               class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1"                 variant="outlined" bg-color="#fffdf9" label="Grad"           v-model="grad"></v-text-field> </v-col>        
         <v-col cols="12" sm="3"> <v-text-field :rules="[required, numeric].flat()"      class="mx-4 mx-sm-2 mx-md-3 my-2 my-sm-1 mr-sm-4 mr-md-8" variant="outlined" bg-color="#fffdf9" label="Poštanski broj" v-model="postBroj"></v-text-field> </v-col>
       </v-row>
       <v-row justify="center" justify-sm="end" no-gutters>
@@ -169,13 +169,17 @@ export default {
       value => /^\d+$/.test(value) || 'Mora biti broj'
     ],
     numericPhone: [
-      value => /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(value) || 'Neispravan telefon'
+      value => /^[\+]?[(]?[0-9]{3}[)]?[-\s\.\\/]?[0-9]{2,6}[-\s\.]?[0-9]{2,6}[-\s\.]?[0-9]{1,6}$/.test(value) || "Neispravan telefon",
+      // value => /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(value) || 'Neispravan telefon'
     ],
     emailCheck: [
       value => /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.test(value) || 'Neispravan email'
     ],
     nameCheck: [
       value => /^[a-z0-9_-]{2,20}$/.test(value) || 'Neispravano korisničko ime'
+    ],
+    dateCheck: [
+      (value) => Date.parse(value) - Date.parse(new Date()) < 0 || "Neispravan datum",
     ],
     passCheck: [
       value => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/.test(value) || 'Nedovoljno jaka lozinka' //(?=.*?[#?!@$ %^&*-])

@@ -39,10 +39,6 @@ const routes = [
     component: () => import('@/pages/EditDestinacijaPage.vue'),
   },
   {
-    path: '/admin_panel/korisnik/:id?',
-    component: () => import('@/pages/EditKorisnikPage.vue'),
-  },
-  {
     path: '/:pathMatch(.*)*',
     redirect: '/error'
   },
