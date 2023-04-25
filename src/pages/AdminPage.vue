@@ -5,10 +5,10 @@
       <v-container id="content_holder_container">
         <v-card
           id="content_holder"
-          class="align-center text-center px-xs-3 px-sm-5 px-md-11"
+          class="align-center text-center px-4 px-sm-10 px-md-16"
         >
           <v-btn
-            class="mb-9"
+            class="mb-9 kartica"
             height="50px"
             width="270px"
             variant="outlined"
@@ -17,26 +17,66 @@
             dodaj novu agenciju
           </v-btn>
 
-          <v-list
-            class="px-6 py-8 border-opacity-100"
-            rounded="xl"
-            border="sm"
-            bg-color="#f8f0e0"
-            lines="one"
-          >
-            <v-list-item v-for="(agencija, i) in agencije" :key="agencija.id">
-              <template v-slot:title>
-                <div class="float-left pe-10">
-                  {{ (i + 1) * (i + 1) * (i + 1) }}
-                </div>
-                <span class="float-left">{{ agencija.naziv }}</span>
+          <v-card class="kartica" variant="outlined">
+            <v-list class="px-3 px-sm-6 py-13" bg-color="#fffdf9" lines="one">
+              <template v-for="(agencija, i) in agencije" :key="agencija.id">
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-divider v-show="i == 0" thickness="2"></v-divider>
+                    <v-list-item
+                      v-bind="props"
+                      :style="{
+                        'background-color': isHovering ? '#f7f5f1' : '',
+                      }"
+                    >
+                      <template v-slot:title>
+                        <div class="float-left">
+                          <span
+                            class="d-inline-block text-disabled text-right me-5 me-sm-12"
+                            style="
+                              width: 29px;
+                              font-family: monospace !important;
+                            "
+                          >
+                            {{ (i + 1) * (i + 1) * (i + 1) }}
+                          </span>
+                          <span class="">
+                            {{ agencija.naziv }}
+                          </span>
+                        </div>
+                      </template>
+                      <template v-slot:append>
+                        <v-btn
+                          variant="plain"
+                          @click="
+                            $router.push(
+                              '/admin_panel/agencija/' + agencija.naziv
+                            )
+                          "
+                          icon="mdi-pencil"
+                        ></v-btn>
+                        <v-hover>
+                          <template v-slot:default="{ isHovering, props }">
+                            <v-btn
+                              icon="mdi-delete"
+                              variant="plain"
+                              v-bind:="props"
+                              @click="
+                                dialog = true;
+                                agencijaBrisanje = agencija.naziv;
+                              "
+                              :color="!isHovering ? '' : 'red-darken-1'"
+                            ></v-btn>
+                          </template>
+                        </v-hover>
+                      </template>
+                    </v-list-item>
+                    <v-divider thickness="2"></v-divider>
+                  </template>
+                </v-hover>
               </template>
-              <template v-slot:append>
-                <v-btn icon="mdi-pencil" variant="plain"></v-btn>
-                <v-btn icon="mdi-delete" variant="plain"></v-btn>
-              </template>
-            </v-list-item>
-          </v-list>
+            </v-list>
+          </v-card>
         </v-card>
       </v-container>
     </v-main>
@@ -56,10 +96,47 @@
       </v-btn>
     </v-scale-transition>
     <foote :mediaLinks="false" />
+
+    <v-dialog v-model="dialog" width="auto">
+      <v-card class="kartica_dijalog pa-4">
+        <v-card-title class="text-wrap text-center mb-4 mt-1">
+          Da li ste sigurni da želite da obrišete agenciju
+          {{ agencijaBrisanje }}?
+        </v-card-title>
+        <v-card-actions class="justify-center">
+          <v-btn
+            class="me-2"
+            style="border-radius: 13px"
+            variant="text"
+            @click="
+              dialog = false;
+              brisanjeAgencije();
+            "
+          >
+            Da
+          </v-btn>
+          <v-btn
+            style="border-radius: 13px"
+            variant="text"
+            @click="dialog = false"
+          >
+            Ne
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
 <style scoped lang="scss">
+.kartica_dijalog {
+  background-color: #fffdf9 !important;
+  border-radius: 8px !important;
+}
+.kartica {
+  font-weight: 600;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
 #content_holder {
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
   min-height: calc(100vh - 80px - 90px);
@@ -83,7 +160,7 @@
 }
 @media screen and (max-width: 599.9px) {
   #content_holder {
-    padding-top: 20px;
+    padding-top: 35px;
   }
 }
 @media screen and (max-width: 850px) {
@@ -106,7 +183,9 @@ export default {
   data: () => ({
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
     agencije: [],
+    agencijaBrisanje: null,
     fab: null,
+    dialog: false,
   }),
   methods: {
     toTop() {
@@ -144,6 +223,7 @@ export default {
         this.$router.push({ path: "/error", state: { code, message } });
       }
     },
+    brisanjeAgencije() {},
   },
   beforeMount() {
     this.load_agencije();
