@@ -76,7 +76,7 @@
                     class="pretraga"
                     label="Pretraga destinacija"
                     variant="x"
-                    v-model="pretraga"
+                    v-model="pretragaInput"
                     append-inner-icon="mdi-magnify"
                   ></v-text-field>
                 </v-card>
@@ -96,7 +96,7 @@
                         single-line
                         label="Pretraga destinacija"
                         variant="x"
-                        v-model="pretraga"
+                        v-model="pretragaInput"
                         class="pretraga"
                         append-inner-icon="mdi-magnify"
                       ></v-text-field>
@@ -149,7 +149,7 @@
                         single-line
                         label="Pretraga destinacija"
                         variant="x"
-                        v-model="pretraga"
+                        v-model="pretragaInput"
                         class="pretraga"
                         append-inner-icon="mdi-magnify"
                       ></v-text-field>
@@ -191,7 +191,7 @@
             <v-row>
               <v-col
                 class="pa-xs-3 pa-sm-4 pa-md-5 pa-lg-6 mb-2 mb-sm-1"
-                v-for="destinacija in destinacije"
+                v-for="destinacija in destinacijeShow"
                 :key="destinacija.id"
                 cols="12"
                 md="6"
@@ -430,15 +430,23 @@ export default {
   data: () => ({
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
     fab: null,
-    selektovanaTip: ["Tip putovanja"],
+    selektovanaTip: "Tip putovanja",
     opcijeTip: ["Svi tipovi", "Letovanje", "Zimovanje", "Gradovi Evrope"],
-    selektovanaPrevoz: ["Vrsta prevoza"],
+    selektovanaPrevoz: "Vrsta prevoza",
     opcijePrevoz: ["Svi prevozi", "Avion", "Autobus", "Sopstveni prevoz"],
     agencija: {},
     destinacije: [],
-    pretraga: "",
+    destinacijeShow: [],
+    pretragaInput: "",
   }),
   methods: {
+    pretraga() {
+      this.destinacijeShow = this.destinacije.filter((v) =>
+        v.naziv.toLowerCase().includes(this.pretragaInput.toLowerCase()) &&
+        (this.selektovanaTip == "Tip putovanja" || this.selektovanaTip == "Svi tipovi" || this.selektovanaTip == v.tip) &&
+        (this.selektovanaPrevoz == "Vrsta prevoza" || this.selektovanaPrevoz == "Svi prevozi" || this.selektovanaPrevoz.toLowerCase().split(' ')[0] == v.prevoz.toLowerCase())
+      );
+    },
     toTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
@@ -512,6 +520,7 @@ export default {
           });
         }
         this.destinacije = results;
+        this.destinacijeShow = results;
       } catch (e) {
         console.log(e);
         message = `Firebase: ${code}\u00A0${message}`;
@@ -525,6 +534,17 @@ export default {
   },
   beforeMount() {
     this.load_agencije();
+  },
+  watch: {
+    selektovanaTip: function () {
+      this.pretraga();
+    },
+    selektovanaPrevoz: function () {
+      this.pretraga();
+    },
+    pretragaInput: function () {
+      this.pretraga();
+    },
   },
 };
 </script>
