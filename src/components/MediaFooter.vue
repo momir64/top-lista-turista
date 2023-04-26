@@ -66,7 +66,7 @@ export default {
       },
       {
         text: "mdi-twitter",
-        link: "https://youtu.be/v9D4FtuyYaw",
+        link: "https://youtu.be/GwmwJ1nodCU",
       },
       {
         text: "mdi-linkedin",
