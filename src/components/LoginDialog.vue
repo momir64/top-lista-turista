@@ -146,6 +146,8 @@
 <script>
 export default {
   data: () => ({
+    url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
+    korisnici: [],
     loginError: false,
     lozinkaShow: false,
     lozinkaShow2: false,
@@ -187,20 +189,62 @@ export default {
   }),
   methods: {
     prijava() {
-      this.loginError =
+      const prazno =
         !this.loginEmail ||
         !this.loginLozinka ||
-        this.loginEmail.trim().length == 0 ||
-        this.loginLozinka.trim().length == 0;
+        !this.loginEmail.trim().length ||
+        !this.loginLozinka.trim().length;
       if (this.loginEmail == "admin" && this.loginLozinka == "admin")
         this.$router.push("/admin_panel");
-      this.loginEmail = "";
-      this.loginLozinka = "";
+      else {
+        this.loginError = prazno || !this.korisnici.some(k => (k.email == this.loginEmail || k.username == this.loginEmail) && k.lozinka == this.loginLozinka);
+        if (!this.loginError)
+          this.$emit('close');
+        this.loginEmail = "";
+        this.loginLozinka = "";
+      }
     },
     registracija() { 
 
     },
-  },
+    async load_korisnici() {
+      let code, message;
+      try {
+        let response = await fetch(this.url + "/korisnici.json");
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
 
+        const data = await response.json();
+        const results = [];
+
+        for (const id in data) {
+            results.push({
+              id: id,
+              ime: data[id]["ime"],
+              prezime: data[id]["prezime"],
+              email: data[id]["email"],
+              lozinka: data[id]["lozinka"],
+              adresa: data[id]["adresa"],
+              datum: data[id]["datumRodjenja"],
+              telefon: data[id]["telefon"],
+              username: data[id]["korisnickoIme"],
+            });
+        }
+        this.korisnici = results;
+      } catch (e) {
+        console.log(e);
+        message = `Firebase: ${code}\u00A0${message}`;
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
+      }
+    },
+  },
+  created() {
+    this.load_korisnici();
+  },
 };
 </script>
