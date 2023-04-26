@@ -6,13 +6,13 @@
     >
       <v-container fluid>
         <v-row>
-          <v-col id="card_pretraga_col">            
+          <v-col id="card_pretraga_col">
             <v-card
               class="card_pretraga mb-15 d-flex"
               height="56px"
               variant="outlined"
             >
-              <div class="izbornik" style="border-right: 1px solid #bbb ;">
+              <div class="izbornik" style="border-right: 1px solid #bbb">
                 <v-select
                   bg-color="#fffdf9"
                   :items="opcije"
@@ -30,6 +30,8 @@
                 class="pretragaHome"
                 label="Pretraga"
                 variant="x"
+                v-model="pretragaInput"
+                @input="pretraga"
                 append-inner-icon="mdi-magnify"
               ></v-text-field>
             </v-card>
@@ -38,7 +40,7 @@
         <v-row>
           <v-col
             class="pa-xs-3 pa-sm-4 pa-md-5 pa-lg-6 mb-2 mb-sm-1"
-            v-for="agencija in agencije"
+            v-for="agencija in agencijeShow"
             :key="agencija.id"
             cols="12"
             md="6"
@@ -158,11 +160,21 @@
 export default {
   data: () => ({
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
-    selektovana: ["Agencija"],
+    pretragaInput: "",
+    selektovana: "Agencija",
     opcije: ["Agencija", "Destinacija"],
     agencije: [],
+    agencijeShow: [],
   }),
   methods: {
+    pretraga() {
+      console.log(this.selektovana);
+      this.agencijeShow = this.agencije.filter(
+        (v) =>
+          (this.selektovana == "Agencija" && v.naziv.toLowerCase().includes(this.pretragaInput.toLowerCase())) ||
+          (this.selektovana == "Destinacija" && v.destinacije.some(d => d.naziv.toLowerCase().includes(this.pretragaInput.toLowerCase())))
+      );
+    },
     async load_agencije() {
       let code, message;
       try {
@@ -182,9 +194,14 @@ export default {
             adresa: data[id]["adresa"],
             email: data[id]["email"],
             telefon: data[id]["brojTelefona"],
+            destinacijeId: data[id]["destinacije"],
+            destinacije: [],
           });
         }
         this.agencije = results;
+        this.agencijeShow = results;
+
+        await this.load_destinacije();
       } catch (e) {
         console.log(e);
         message = `Firebase: ${code}\u00A0${message}`;
@@ -192,9 +209,58 @@ export default {
         this.$router.push({ path: "/error", state: { code, message } });
       }
     },
+    async load_destinacije() {
+      for (const i in this.agencije)
+        this.agencije[i].destinacije = await this.load_destinacija(
+          this.agencije[i].destinacijeId
+        );
+      this.agencijeShow = this.agencije;
+    },
+    async load_destinacija(destinacijeId) {
+      let code, message;
+      try {
+        let response = await fetch(this.url + "/destinacije.json");
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+
+        const data = await response.json();
+        const results = [];
+
+        console.log(data);
+        console.log(destinacijeId);
+        for (const id in data[destinacijeId]) {
+          results.push({
+            id: id,
+            tip: data[destinacijeId][id]["tip"],
+            opis: data[destinacijeId][id]["opis"],
+            cena: data[destinacijeId][id]["cena"],
+            naziv: data[destinacijeId][id]["naziv"],
+            slike: data[destinacijeId][id]["slike"],
+            prevoz: data[destinacijeId][id]["prevoz"],
+            maxOsoba: data[destinacijeId][id]["maxOsoba"],
+          });
+        }
+
+        return results;
+      } catch (e) {
+        console.log(e);
+        message = `Firebase: ${code}\u00A0${message}`;
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
+      }
+    },
   },
   beforeMount() {
     this.load_agencije();
+  },
+  watch: {
+    selektovana: function () {
+      this.pretraga();
+    },
   },
 };
 </script>
