@@ -37,13 +37,12 @@
                         </div>
                       </template>
                       <template v-slot:append>
-                        <v-btn
-                          variant="plain"
-                          @click="
-                            $router.push('/admin_panel/agencija/' + agencija.id)
-                          "
-                          icon="mdi-pencil"
-                        ></v-btn>
+                        <router-link
+                          style="text-decoration: none; color: inherit"
+                          :to="'/admin_panel/agencija/' + agencija.id"
+                        >
+                          <v-btn variant="plain" icon="mdi-pencil"></v-btn>
+                        </router-link>
                         <v-hover>
                           <template v-slot:default="{ isHovering, props }">
                             <v-btn
@@ -66,16 +65,19 @@
               </template>
             </v-list>
           </v-card>
-
-          <v-btn
-            class="px-10 kartica mt-1"
-            height="50px"
-            variant="outlined"
-            prependIcon="mdi-plus"
-            @click="$router.push('/admin_panel/agencija/')"
+          <router-link
+            style="text-decoration: none; color: inherit"
+            to="/admin_panel/agencija"
           >
-            dodaj novu agenciju
-          </v-btn>
+            <v-btn
+              class="px-10 kartica mt-1"
+              height="50px"
+              variant="outlined"
+              prependIcon="mdi-plus"
+            >
+              dodaj novu agenciju
+            </v-btn>
+          </router-link>
         </v-card>
       </v-container>
     </v-main>

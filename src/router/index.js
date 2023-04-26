@@ -35,7 +35,11 @@ const routes = [
     component: () => import('@/pages/EditAgencijaPage.vue'),
   },
   {
-    path: '/admin_panel/destinacija/:id?',
+    path: '/admin_panel/destinacija/:agencijaId?/:id',
+    component: () => import('@/pages/EditDestinacijaPage.vue'),
+  },
+  {
+    path: '/admin_panel/destinacija/:agencijaId',
     component: () => import('@/pages/EditDestinacijaPage.vue'),
   },
   {

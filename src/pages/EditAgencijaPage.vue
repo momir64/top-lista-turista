@@ -80,15 +80,15 @@
                               </div>
                             </template>
                             <template v-slot:append>
-                              <v-btn
-                                variant="plain"
-                                @click="
-                                  $router.push(
-                                    '/admin_panel/destinacija/' + destinacija.id
-                                  )
-                                "
-                                icon="mdi-pencil"
-                              ></v-btn>
+                              <router-link
+                                style="text-decoration: none; color: inherit"
+                                :to="`/admin_panel/destinacija/${agencija.id}/${destinacija.id}`"
+                              >
+                                <v-btn
+                                  variant="plain"
+                                  icon="mdi-pencil"
+                                ></v-btn>
+                              </router-link>
                               <v-hover>
                                 <template
                                   v-slot:default="{ isHovering, props }"
@@ -115,15 +115,20 @@
                 </v-card>
               </v-col>
               <v-col cols="12" class="text-center">
-                <v-btn
-                  class="mb-9 px-11 kartica mt-1"
-                  height="50px"
-                  variant="outlined"
-                  prependIcon="mdi-plus"
-                  @click="$router.push('/admin_panel/destinacija/')"
+                <router-link
+                  :style="!this.$route.params.id ? {pointerEvents:'none', opacity: 0.5} : {}"
+                  :to="'/admin_panel/destinacija/' + agencija.id"
+                  style="text-decoration: none; color: inherit"
                 >
-                  dodaj novu destinaciju
-                </v-btn>
+                  <v-btn
+                    class="mb-9 px-11 kartica mt-1"
+                    height="50px"
+                    variant="outlined"
+                    prependIcon="mdi-plus"
+                  >
+                    dodaj novu destinaciju
+                  </v-btn>
+                </router-link>
               </v-col>
             </v-col>
           </v-row>
@@ -286,10 +291,7 @@ export default {
     fileCheck() {
       return [
         (value) => (!!value && !!value.length) || "Obavezno polje",
-        (value) =>
-          (!!value[0].size && !!value[0].size) ||
-          value[0].name == this.agencija.slika ||
-          "Neispravan fajl",
+        (value) => !!value[0].size || value[0].name == this.agencija.slika || "Neispravan fajl",
       ];
     },
   },
