@@ -2,7 +2,7 @@
 
 Web stranica koja objedinjuje turističke agencije.  
 Projekat iz predmeta web dizajn.  
-https://tlt.moma.rs/
+https://tlt.moma.rs  
 <br>
 
 ## Homepage screenshot
