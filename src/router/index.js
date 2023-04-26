@@ -49,7 +49,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  // base: process.env.NODE_ENV === 'production' ? '/tlt/' : '/',
+  history: createWebHistory(process.env.BASE_URL),   // process.env.NODE_ENV === 'production' ? '/tlt/' : '/'
   routes,
   scrollBehavior() {
     return { top: 0 }
