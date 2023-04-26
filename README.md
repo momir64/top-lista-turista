@@ -58,5 +58,5 @@ Projekat iz predmeta web dizajn.
 
 ### TODO
 - Korišćenje nove verzije baze kad bude bila dostupna
-- Dodavanje funkcionalnosti za menjanje baze (dodavanje i ažuriranje entiteta)
+- Funkcionalnosti za menjanje baze (dodavanje i ažuriranje entiteta)
 - UX tweaks
