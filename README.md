@@ -3,12 +3,12 @@
 Web stranica koja objedinjuje turističke agencije.  
 Projekat iz predmeta web dizajn.  
 https://tlt.moma.rs  
-<br>
+<br/>
 
 ## Homepage screenshot
 
 ![screenshot](https://user-images.githubusercontent.com/40437358/234534835-e8e455d3-d395-496c-9168-0e4eb4725200.png)  
-<br>
+<br/>
 
 ## Mapa sajta sa kratkim opisom
 
@@ -53,11 +53,33 @@ https://tlt.moma.rs
 │   
 └── <b>[8]Stranica za greške</b>
 </pre>
-<br>
+<br/>
 
-
-
-### TODO
+## Linkovi
+<pre>
+<b>[1]  https://tlt.moma.rs</b>
+<b>[2]  https://tlt.moma.rs/agencija/{ime agencije}</b>
+       - https://tlt.moma.rs/agencija/Air%20Serbia
+<b>[3]  https://tlt.moma.rs/destinacija/{ime destinacije}</b>
+       - https://tlt.moma.rs/destinacija/Sitonija
+<b>[4]  https://tlt.moma.rs/admin_panel/destinacija/{ID agencije}/{ID destinacije - opcionalno}</b>
+       - https://tlt.moma.rs/admin_panel/destinacija/-MNQftJa4rskH-dBqE9Z/-MNQftJa4rskH-dBqF9Z3
+       - https://tlt.moma.rs/admin_panel/destinacija/-MNQftJa4rskH-dBqE9Z
+<b>[5]  https://tlt.moma.rs/admin_panel/agencija/{ID agencije - opcionalno}</b>
+       - https://tlt.moma.rs/admin_panel/agencija/-MNQftJa4rskH-dBqE9Z
+       - https://tlt.moma.rs/admin_panel/agencija
+       - https://tlt.moma.rs/admin_panel/agencije
+<b>[6]  https://tlt.moma.rs/admin_panel/korisnici</b>
+<b>[7]  dostupan na svakoj ne-admin stranici</b>
+<b>[8]  https://tlt.moma.rs/error</b>  
+       - https://tlt.moma.rs/agencija/NekaNovaNedefinisana
+       - ili bilo koji drugi neispravan url
+</pre>  
+<br/>  
+<br/>  
+  
+## TODO
 - Korišćenje nove verzije baze kad bude bila dostupna
 - Funkcionalnosti za menjanje baze (dodavanje i ažuriranje entiteta)
+- Optimizacija i čišćenje koda
 - UX tweaks
