@@ -15,6 +15,8 @@
                   <div class="text-h4 font-weight-bold mb-2">Podaci</div>
                 </v-col>
                 <v-col        cols="12"> <v-text-field :rules="required"                     class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Naziv destinacije" v-model="naziv"></v-text-field> </v-col>
+                <v-col md="6" cols="12"> <v-select     :rules="required"                     class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Tip"               :items="opcijeTip" v-model="tip"></v-select><template v-slot:selection="{ item }"><span id="izbor">{{ item.title }}</span></template></v-col>
+                <v-col md="6" cols="12"> <v-select     :rules="required"                     class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Prevoz"            :items="opcijePrevoz" v-model="prevoz"></v-select><template v-slot:selection="{ item }"><span id="izbor">{{ item.title }}</span></template></v-col>
                 <v-col md="6" cols="12"> <v-text-field :rules="[required, numeric].flat()"   class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Cena"              v-model="cena" suffix="RSD"></v-text-field> </v-col>
                 <v-col md="6" cols="12"> <v-text-field :rules="[required, numeric].flat()"   class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Maksimalno osoba"  v-model="maxOsoba"></v-text-field> </v-col>
                 <v-col        cols="12"> <v-file-input :rules="fileCheck"                    class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Slike"             v-model="slike" accept="image/*" multiple chips prepend-icon prepend-inner-icon="mdi-paperclip"></v-file-input> </v-col>
@@ -130,6 +132,8 @@ export default {
     cena: null,
     maxOsoba: null,
     slike: null,
+    opcijeTip: ["Letovanje", "Zimovanje", "Gradovi Evrope"],
+    opcijePrevoz: ["Avion", "Autobus", "Sopstveni"],
     required: [(value) => !!value || "Obavezno polje"],
     numeric: [(value) => /^\d+$/.test(value) || "Mora biti broj"],
     numericPhone: [
@@ -208,6 +212,7 @@ export default {
         this.opis = this.destinacija.opis;
         this.tip = this.destinacija.tip;
         this.prevoz = this.destinacija.prevoz;
+        this.prevoz = this.prevoz.charAt(0).toUpperCase() + this.prevoz.slice(1);
         this.cena = this.destinacija.cena;
         this.maxOsoba = this.destinacija.maxOsoba;
         this.slike = this.destinacija.slike.map(slika => { return { name: slika.split("/").pop() }; });
