@@ -15,7 +15,7 @@ const routes = [
     component: () => import('@/pages/AgencijaPage.vue'),
   },
   {
-    path: '/destinacija/:naziv',
+    path: '/destinacija/:agencija/:naziv',
     component: () => import('@/pages/DestinacijaPage.vue'),
   },
   {

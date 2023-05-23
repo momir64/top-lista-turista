@@ -420,6 +420,7 @@ export default {
             state: code == 200 ? {} : { title, message },
           });
         }
+        this.addEdit = true;
         this.clear();
       }
     },

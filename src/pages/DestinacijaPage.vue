@@ -282,32 +282,40 @@ export default {
       this.fab = window.pageYOffset > 60;
     },
     async load_destinacije() {
-      let code, message;
+      let code, message, agencijaId;
       try {
-        let response = await fetch(this.url + "/destinacije.json");
+        let response = await fetch(this.url + "/agencije.json");
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+
+        const agencije = await response.json();
+        for (const id in agencije) 
+          if (agencije[id]["naziv"] == this.$route.params.agencija)
+            agencijaId = agencije[id]["destinacije"];
+        if (!agencijaId) throw new Error("Agencija nije pronađena");
+        
+        response = await fetch(this.url + `/destinacije/${agencijaId}.json`);
         code = response.status;
         message = response.statusText;
         if (!response.ok) throw new Error();
 
         const data = await response.json();
 
-        for (const idG in data) {
-          for (const idD in data[idG]) {
-            if (data[idG][idD]["naziv"] == this.$route.params.naziv) {
-              this.destinacija = {
-                id: idD,
-                tip: data[idG][idD]["tip"],
-                opis: data[idG][idD]["opis"],
-                cena: data[idG][idD]["cena"],
-                naziv: data[idG][idD]["naziv"],
-                slike: data[idG][idD]["slike"],
-                prevoz: data[idG][idD]["prevoz"],
-                maxOsoba: data[idG][idD]["maxOsoba"],
-              };
-              break;
-            }
+        for (const id in data) {
+          if (data[id]["naziv"] == this.$route.params.naziv) {
+            this.destinacija = {
+              id: id,
+              tip: data[id]["tip"],
+              opis: data[id]["opis"],
+              cena: data[id]["cena"],
+              naziv: data[id]["naziv"],
+              slike: data[id]["slike"],
+              prevoz: data[id]["prevoz"],
+              maxOsoba: data[id]["maxOsoba"],
+            };
+            break;
           }
-          if (Object.keys(this.destinacija).length > 0) break;
         }
         if (!this.destinacija.id) throw new Error("Destinacija nije pronađena");
       } catch (e) {

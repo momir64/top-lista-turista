@@ -199,7 +199,7 @@
               >
                 <router-link
                   style="text-decoration: none; color: inherit"
-                  :to="`/destinacija/${destinacija.naziv}`"
+                  :to="`/destinacija/${agencija.naziv}/${destinacija.naziv}`"
                   ><v-card class="kartica">
                     <v-img
                       :src="destinacija.slike[0]"

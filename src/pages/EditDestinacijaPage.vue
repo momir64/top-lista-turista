@@ -243,7 +243,7 @@ export default {
     async load_destinacije(destinacijeId) {
       let code, message;
       try {
-        let response = await fetch(this.url + "/destinacije.json");
+        let response = await fetch(this.url + `/destinacije/${this.$route.params.agencijaId}.json`);
         code = response.status;
         message = response.statusText;
         if (!response.ok) throw new Error();
@@ -252,21 +252,16 @@ export default {
 
         console.log(data);
         console.log(destinacijeId);
-        for (const idG in data) {
-          for (const id in data[idG]) {
-            if (id == destinacijeId)
-              this.destinacija = {
-                id: id,
-                tip: data[idG][id]["tip"],
-                opis: data[idG][id]["opis"],
-                cena: data[idG][id]["cena"],
-                naziv: data[idG][id]["naziv"],
-                slike: data[idG][id]["slike"],
-                prevoz: data[idG][id]["prevoz"],
-                maxOsoba: data[idG][id]["maxOsoba"],
-              };
-          }
-        }
+        this.destinacija = {
+          id: destinacijeId,
+          tip: data[destinacijeId]["tip"],
+          opis: data[destinacijeId]["opis"],
+          cena: data[destinacijeId]["cena"],
+          naziv: data[destinacijeId]["naziv"],
+          slike: data[destinacijeId]["slike"],
+          prevoz: data[destinacijeId]["prevoz"],
+          maxOsoba: data[destinacijeId]["maxOsoba"],
+        };
 
         this.naziv = this.destinacija.naziv;
         this.opis = this.destinacija.opis;
