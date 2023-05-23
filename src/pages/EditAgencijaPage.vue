@@ -7,8 +7,6 @@
           id="content_holder"
           class="align-center text-center px-xs-3 px-sm-5 px-md-11"
         >
-          <!-- Edit agencija -->
-
           <v-row no-gutters>
             <v-col
               cols="12"
@@ -16,7 +14,7 @@
               class="text-center order-md-last order-first pa-3 ps-3 ps-md-2 ps-lg-4"
             >
               <v-card class="kartica" width="100%" variant="outlined">
-                <v-form @submit.prevent="nekafunkcija" validate-on="blur">
+                <v-form v-model:model-value="isFormValid" @submit.prevent="submit()" validate="blur" ref="forma" autocomplete="off">
                   <v-row class="pa-13 pt-7 px-7 px-sm-9 px-md-11 px-lg-13">
                     <v-col>
                       <div class="text-h4 font-weight-bold mb-2">Podaci</div>
@@ -30,7 +28,7 @@
                     <v-col md="5" cols="12"> <v-text-field :rules="[required, numeric, numericYear].flat()" class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Godina osnivanja" v-model="osnovana"></v-text-field> </v-col>
                     <v-col md="7" cols="12"> <v-file-input :rules="fileCheck"                               class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Slika"            v-model="slika" accept="image/*" prepend-icon prepend-inner-icon="mdi-paperclip"></v-file-input> </v-col>
                     <v-col md="5" cols="12" offset-md="7">
-                      <v-btn type="submit" class="bg-white mt-4" style="font-weight: 600;" variant="outlined" width="100%" height="44px">
+                      <v-btn type="submit" class="bg-white mt-4" style="font-weight: 600" variant="outlined" width="100%" height="44px">
                         {{ this.$route.params.id ? 'Ažuriraj' : 'Dodaj' }}
                       </v-btn>
                     </v-col>
@@ -82,7 +80,7 @@
                             <template v-slot:append>
                               <router-link
                                 style="text-decoration: none; color: inherit"
-                                :to="`/admin_panel/destinacija/${agencija.id}/${destinacija.id}`"
+                                :to="`/admin_panel/destinacija/${agencija.destinacije}/${destinacija.id}`"
                               >
                                 <v-btn
                                   variant="plain"
@@ -100,6 +98,8 @@
                                     @click="
                                       dialog = true;
                                       destinacijaBrisanje = destinacija.naziv;
+                                      destinacijaBrisanjeID = destinacija.id;
+                                      destinacijaBrisanjeIndex = i;
                                     "
                                     :color="!isHovering ? '' : 'red-darken-1'"
                                   ></v-btn>
@@ -116,8 +116,8 @@
               </v-col>
               <v-col cols="12" class="text-center">
                 <router-link
-                  :style="!this.$route.params.id ? {pointerEvents:'none', opacity: 0.5} : {}"
-                  :to="'/admin_panel/destinacija/' + agencija.id"
+                  :style="!this.$route.params.id ? { pointerEvents: 'none', opacity: 0.5 } : {}"
+                  :to="'/admin_panel/destinacija/' + agencija.destinacije"
                   style="text-decoration: none; color: inherit"
                 >
                   <v-btn
@@ -165,7 +165,7 @@
             variant="text"
             @click="
               dialog = false;
-              brisanjeAgencije();
+              brisanjeDestinacije();
             "
           >
             Da
@@ -248,6 +248,10 @@ export default {
     fab: null,
     dialog: false,
     destinacijaBrisanje: null,
+    destinacijaBrisanjeID: null,
+    destinacijaBrisanjeIndex: null,
+    agencijaMenjanjeID: null,
+    agencijaMenjanjeIndex: null,
     agencija: {},
     destinacije: [],
     naziv: null,
@@ -258,6 +262,8 @@ export default {
     telefon: null,
     osnovana: null,
     slika: null,
+    slikaURL: null,
+    isFormValid: false,
     required: [(value) => !!value || "Obavezno polje"],
     numeric: [(value) => /^\d+$/.test(value) || "Mora biti broj"],
     numericPhone: [
@@ -292,10 +298,118 @@ export default {
       return [
         (value) => (!!value && !!value.length) || "Obavezno polje",
         (value) => !!value[0].size || value[0].name == this.agencija.slika || "Neispravan fajl",
+        (value) => value[0].name == this.agencija.slika || value[0].size < 10000000 || "Prevelika slika",
       ];
     },
   },
   methods: {
+    async brisanjeDestinacije() {
+      let code, message;
+      try {
+        let response = await fetch(
+          this.url +
+            `/destinacije/${this.agencija.destinacije}/${this.destinacijaBrisanjeID}.json`,
+          { method: "DELETE" }
+        );
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+        this.destinacije.splice(this.destinacijaBrisanjeIndex, 1);
+      } catch (e) {
+        console.log(e);
+        message = `Firebase: ${code}\u00A0${message}`;
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
+      }
+    },
+    async uploadImage() {
+      const formdata = new FormData();
+      formdata.append("file", this.slika[0]);
+      formdata.append("UPLOADCARE_STORE", "auto");
+      formdata.append("UPLOADCARE_PUB_KEY", "5e5635739f48855b98f7");
+      let response = await fetch("https://upload.uploadcare.com/base/", {
+        method: "POST",
+        body: formdata,
+      });
+      return `https://ucarecdn.com/${(await response.json()).file}/${
+        this.slika[0].name
+      }`;
+    },
+    async newDestinacije() {
+      let code, message;
+      try {
+        let response = await fetch(this.url + "/destinacije.json", {
+          method: "POST",
+          body: JSON.stringify({}),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+        this.agencija.destinacije = (await response.json())["name"];
+      } catch (e) {
+        console.log(e);
+        message = `Firebase: ${code}\u00A0${message}`;
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
+      }
+    },
+    async submit() {
+      let code, message;
+      if (this.slika && "size" in this.slika[0])
+        this.slikaURL = await this.uploadImage();
+      if (!this.$route.params.id) await this.newDestinacije();
+      if (this.isFormValid) {
+        let tmpAgencija = {
+          adresa: `${this.ulica}, ${this.grad}, ${this.postBroj}`,
+          brojTelefona: this.telefon,
+          destinacije: this.agencija.destinacije,
+          email: this.email,
+          godina: this.osnovana,
+          logo: this.slikaURL,
+          naziv: this.naziv,
+        };
+        try {
+          let response = await fetch(
+            this.url +
+              (!this.$route.params.id
+                ? "/agencije.json"
+                : `/agencije/${this.agencija.id}.json`),
+            {
+              method: !this.$route.params.id ? "POST" : "PATCH",
+              body: JSON.stringify(tmpAgencija),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+              },
+            }
+          );
+          code = response.status;
+          message = response.statusText;
+          if (!response.ok) throw new Error();
+          if (!this.$route.params.id) {
+            let id = (await response.json())["name"];
+            this.$router.push(`/admin_panel/agencija/${id}`);
+            this.agencija.id = id;
+          }
+        } catch (e) {
+          console.log(e);
+          message = `Firebase: ${code}\u00A0${message}`;
+          const title = "Ooops";
+          this.$router.push({
+            path: "/error",
+            state: code == 200 ? {} : { title, message },
+          });
+        }
+      }
+    },
     toTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
@@ -311,7 +425,6 @@ export default {
         if (!response.ok) throw new Error();
 
         const data = await response.json();
-        const results = [];
 
         for (const id in data) {
           if (id == this.$route.params.id) {
@@ -324,6 +437,7 @@ export default {
               telefon: data[id]["brojTelefona"],
               destinacije: data[id]["destinacije"],
               slika: data[id]["logo"].split("/").pop(),
+              slikaURL: data[id]["logo"],
             };
 
             this.naziv = this.agencija.naziv;
@@ -334,6 +448,7 @@ export default {
             this.telefon = this.agencija.telefon;
             this.osnovana = this.agencija.osnovana;
             this.slika = [{ name: this.agencija.slika }];
+            this.slikaURL = this.agencija.slikaURL;
 
             break;
           }

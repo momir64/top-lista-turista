@@ -7,9 +7,8 @@
           id="content_holder"
           class="align-center text-center px-8 px-sm-12 px-md-16"
         >
-          <!-- Edit agencija -->
           <v-card class="kartica" width="100%" variant="outlined">
-            <v-form @submit.prevent="nekafunkcija" validate-on="blur">
+            <v-form v-model:model-value="isFormValid" @submit.prevent="submit()" validate="blur" ref="forma" autocomplete="off">
               <v-row class="pa-13 pt-7 px-5 px-sm-9 px-md-11 px-lg-13 justify-center">
                 <v-col>
                   <div class="text-h4 font-weight-bold mb-2">Podaci</div>
@@ -132,6 +131,7 @@ export default {
     cena: null,
     maxOsoba: null,
     slike: null,
+    isFormValid: null,
     opcijeTip: ["Letovanje", "Zimovanje", "Gradovi Evrope"],
     opcijePrevoz: ["Avion", "Autobus", "Sopstveni"],
     required: [(value) => !!value || "Obavezno polje"],
@@ -164,15 +164,76 @@ export default {
     ],
   }),
   computed: {
-    fileCheck() {     
-      return [        
-        value => { console.log(!!value && !!value.length); console.log(value); return true;  },
+    fileCheck() {
+      return [
         (value) => (!!value && !!value.length) || "Obavezno polje",
-        (value) => value.every(s => !!s.size) || (value.length == this.destinacija.slike.length && value.every(s, i => S.name == this.destinacija.slike[i].split('/').pop())) || "Neispravan fajl",
+        (value) => value.every((s) => !!s.size) || (this.destinacija.slike.length && value.length == this.destinacija.slike.length && value.every((s, i) => s.name == this.destinacija.slike[i].split("/").pop())) || "Neispravan fajl",
+        (value) => value.every((s, i) => (this.destinacija.slike && this.destinacija.slike.length > i && s.name == this.destinacija.slike[i].split("/").pop()) || s.size < 10000000) || `Slika "${value.find((s) => "size" in s && s.size >= 10000000).name}" je prevelika!`,
       ];
     },
   },
   methods: {
+    async uploadImage(slika) {
+      const formdata = new FormData();
+      formdata.append("file", slika);
+      formdata.append("UPLOADCARE_STORE", "auto");
+      formdata.append("UPLOADCARE_PUB_KEY", "5e5635739f48855b98f7");
+      let response = await fetch("https://upload.uploadcare.com/base/", {
+        method: "POST",
+        body: formdata,
+      });
+      return `https://ucarecdn.com/${(await response.json()).file}/${
+        slika.name
+      }`;
+    },
+    async submit() {
+      let code, message;
+      if (this.isFormValid) {
+        if (!this.$route.params.id) this.destinacija.slike = [];
+        if ("size" in this.slike[0]) {
+          this.destinacija.slike.length = 0;
+          for (let i = 0; i < this.slike.length; i++)
+            this.destinacija.slike.push(await this.uploadImage(this.slike[i]));
+        }
+        try {
+          this.destinacija = {
+            tip: this.tip,
+            opis: this.opis,
+            cena: this.cena,
+            naziv: this.naziv,
+            slike: this.destinacija.slike,
+            prevoz: this.prevoz,
+            maxOsoba: this.maxOsoba,
+          };
+
+          let response = await fetch(
+            this.url +
+              (!this.$route.params.id
+                ? `/destinacije/${this.$route.params.agencijaId}.json`
+                : `/destinacije/${this.$route.params.agencijaId}/${this.$route.params.id}.json`),
+            {
+              method: !this.$route.params.id ? "POST" : "PATCH",
+              body: JSON.stringify(this.destinacija),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+              },
+            }
+          );
+          code = response.status;
+          message = response.statusText;
+          if (!response.ok) throw new Error();
+          this.$router.go(-1);
+        } catch (e) {
+          console.log(e);
+          message = `Firebase: ${code}\u00A0${message}`;
+          const title = "Ooops";
+          this.$router.push({
+            path: "/error",
+            state: code == 200 ? {} : { title, message },
+          });
+        }
+      }
+    },
     toTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
@@ -188,7 +249,6 @@ export default {
         if (!response.ok) throw new Error();
 
         const data = await response.json();
-        const results = [];
 
         console.log(data);
         console.log(destinacijeId);
@@ -216,7 +276,6 @@ export default {
         this.cena = this.destinacija.cena;
         this.maxOsoba = this.destinacija.maxOsoba;
         this.slike = this.destinacija.slike.map(slika => { return { name: slika.split("/").pop() }; });
-
       } catch (e) {
         console.log(e);
         message = `Firebase: ${code}\u00A0${message}`;
@@ -229,7 +288,7 @@ export default {
     },
   },
   beforeMount() {
-    if(this.$route.params.id) this.load_destinacije(this.$route.params.id);
+    if (this.$route.params.id) this.load_destinacije(this.$route.params.id);
   },
 };
 </script>
