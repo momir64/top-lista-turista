@@ -27,7 +27,6 @@
         variant="outlined"
         size="large"
         append-icon="mdi-compass"
-        @click="dialog = true"
         v-if="$vuetify.display.width >= 850"
       >
         Agencije
@@ -38,7 +37,6 @@
         height="44px"
         min-width="50px"
         width="50px"
-        @click="dialog = true"
         v-else
       >
         <v-icon icon="mdi-compass" size="24px"></v-icon>
@@ -54,7 +52,6 @@
         variant="outlined"
         size="large"
         append-icon="mdi-account-multiple"
-        @click="dialog = true"
         v-if="$vuetify.display.width >= 850"
       >
         Korisnici
@@ -65,7 +62,6 @@
         height="44px"
         min-width="50px"
         width="50px"
-        @click="dialog = true"
         v-else
       >
         <v-icon icon="mdi-account-multiple" size="24px"></v-icon>
@@ -104,10 +100,6 @@
   .expand {
     height: 115px !important;
     padding-top: 46px;
-    .v-btn {
-      transition: 0.2s;
-      margin-right: 70px !important;
-    }
     .v-img {
       transition: 0.2s;
       max-width: 520px;
@@ -121,8 +113,6 @@
 export default {
   data: () => ({
     isXs: false,
-    ok: "mesaad",
-    dialog: false,
   }),
   props: {
     color: String,

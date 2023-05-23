@@ -19,19 +19,44 @@
       </router-link>
     </v-toolbar-title>
 
+    <router-link
+      style="text-decoration: none; color: inherit"
+      to="/admin_panel"
+    >
+      <v-btn
+        class="ma-4 mr-2"
+        variant="outlined"
+        size="large"
+        append-icon="mdi-security"
+        v-if="$vuetify.display.width >= 1050"
+      >
+        Admin
+      </v-btn>
+      <v-btn
+        class="ma-4 mr-2"
+        variant="outlined"
+        height="44px"
+        min-width="50px"
+        width="50px"
+        v-else
+      >
+        <v-icon icon="mdi-security" size="24px"></v-icon>
+      </v-btn>
+    </router-link>
+
     <v-btn
-      class="ma-4"
+      class="rightbtn ma-4 ml-2"
       variant="outlined"
       size="large"
       append-icon="mdi-account-circle"
       @click="dialog = true"
-      v-if="$vuetify.display.width > 370"
+      v-if="$vuetify.display.width >= 1050"
     >
       PRIJAVA
     </v-btn>
 
     <v-btn
-      class="ma-4"
+      class="rightbtn ma-4 ml-2"
       variant="outlined"
       height="44px"
       min-width="50px"
@@ -78,7 +103,7 @@
   .expand {
     height: 115px !important;
     padding-top: 46px;
-    .v-btn {
+    .v-btn.rightbtn {
       transition: 0.2s;
       margin-right: 70px !important;
     }
@@ -99,7 +124,6 @@ export default {
   },
   data: () => ({
     isXs: false,
-    ok: "mesaad",
     dialog: false,
   }),
   props: {
