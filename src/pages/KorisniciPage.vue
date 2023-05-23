@@ -16,21 +16,21 @@
               class="text-center order-md-last order-first pa-3 ps-3 ps-md-2 ps-lg-4"
             >
               <v-card class="kartica" width="100%" variant="outlined">
-                <v-form @submit.prevent="nekafunkcija" validate="blur" ref="forma" autocomplete="off">
+                <v-form v-model:model-value="isFormValid" @submit.prevent="submit()" validate="blur" ref="forma" autocomplete="off">
                   <v-row class="pa-13 pt-7 px-7 px-sm-9 px-md-11 px-lg-13">
                     <v-col cols="12">
                       <div class="text-h4 font-weight-bold mb-2">Podaci</div>
                     </v-col>
-                    <v-col sm="6" cols="12"> <v-text-field :rules="[required].flat()"                       class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Ime"              v-model="ime"></v-text-field> </v-col>
-                    <v-col sm="6" cols="12"> <v-text-field :rules="[required].flat()"                       class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Prezime"          v-model="prezime"></v-text-field> </v-col>
-                    <v-col        cols="12"> <v-text-field :rules="[required].flat()"                       class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Ulica i broj"     v-model="ulica"></v-text-field> </v-col>
-                    <v-col sm="7" cols="12"> <v-text-field :rules="[required].flat()"                       class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Grad"             v-model="grad"></v-text-field> </v-col>
-                    <v-col sm="5" cols="12"> <v-text-field :rules="[required, numeric].flat()"              class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Poštanski broj"   v-model="postBroj"></v-text-field> </v-col>
-                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, dateCheck].flat()"            class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Datum rođenja"    v-model="datum" type="date"></v-text-field> </v-col>
-                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, numericPhone].flat()"         class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Telefon"          v-model="telefon"></v-text-field> </v-col>
-                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, emailCheck].flat()"           class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Email"            v-model="email" ></v-text-field> </v-col>
-                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, nameCheck].flat()"            class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Korisničko ime"   v-model="username"></v-text-field> </v-col>
-                    <v-col        cols="12"> <v-text-field :rules="[required, passCheck].flat()"            class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Lozinka"          v-model="lozinka" autocomplete="new-password" :type="lozinkaShow ? 'text' : 'password'" :append-inner-icon="lozinkaShow ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="lozinkaShow = !lozinkaShow"></v-text-field> </v-col>
+                    <v-col sm="6" cols="12"> <v-text-field :rules="[required].flat()"                           class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Ime"              v-model="ime"></v-text-field> </v-col>
+                    <v-col sm="6" cols="12"> <v-text-field :rules="[required].flat()"                           class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Prezime"          v-model="prezime"></v-text-field> </v-col>
+                    <v-col        cols="12"> <v-text-field :rules="[required].flat()"                           class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Ulica i broj"     v-model="ulica"></v-text-field> </v-col>
+                    <v-col sm="7" cols="12"> <v-text-field :rules="[required].flat()"                           class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Grad"             v-model="grad"></v-text-field> </v-col>
+                    <v-col sm="5" cols="12"> <v-text-field :rules="[required, numeric].flat()"                  class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Poštanski broj"   v-model="postBroj"></v-text-field> </v-col>
+                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, dateCheck].flat()"                class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Datum rođenja"    v-model="datum" type="date"></v-text-field> </v-col>
+                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, numericPhone].flat()"             class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Telefon"          v-model="telefon"></v-text-field> </v-col>
+                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, emailCheck, zauzetEmail].flat()"  class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Email"            v-model="email" ></v-text-field> </v-col>
+                    <v-col sm="6" cols="12"> <v-text-field :rules="[required, nameCheck, zauzetoIme].flat()"    class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Korisničko ime"   v-model="username"></v-text-field> </v-col>
+                    <v-col        cols="12"> <v-text-field :rules="[required, passCheck].flat()"                class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Lozinka"          v-model="lozinka" autocomplete="new-password" :type="lozinkaShow ? 'text' : 'password'" :append-inner-icon="lozinkaShow ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="lozinkaShow = !lozinkaShow"></v-text-field> </v-col>
               
                     <!-- <v-col md="7" cols="12"> <v-file-input :rules="fileCheck"                               class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Slika"            v-model="slika" accept="image/*" prepend-icon prepend-inner-icon="mdi-paperclip"></v-file-input> </v-col> -->
                     <v-col md="5" cols="12" offset-md="7">
@@ -86,7 +86,12 @@
                             <template v-slot:append>
                               <v-btn
                                 variant="plain"
-                                @click="popuni(korisnik); addEdit=false"
+                                @click="
+                                  popuni(korisnik);
+                                  korisnikMenjanjeID = korisnik.id;
+                                  korisnikMenjanjeIndex = i;
+                                  addEdit = false;
+                                "
                                 icon="mdi-pencil"
                               ></v-btn>
                               <v-hover>
@@ -100,6 +105,8 @@
                                     @click="
                                       dialog = true;
                                       korisnikBrisanje = korisnik.username;
+                                      korisnikBrisanjeID = korisnik.id;
+                                      korisnikBrisanjeIndex = i;
                                     "
                                     :color="!isHovering ? '' : 'red-darken-1'"
                                   ></v-btn>
@@ -159,8 +166,8 @@
             style="border-radius: 13px"
             variant="text"
             @click="
+              brisanjeKorisnika();
               dialog = false;
-              brisanjeAgencije();
             "
           >
             Da
@@ -245,6 +252,10 @@ export default {
     fab: null,
     dialog: false,
     korisnikBrisanje: null,
+    korisnikBrisanjeID: null,
+    korisnikBrisanjeIndex: null,
+    korisnikMenjanjeID: null,
+    korisnikMenjanjeIndex: null,
     korisnik: {},
     korisnici: [],
     ime: null,
@@ -257,6 +268,7 @@ export default {
     email: null,
     telefon: null,
     datum: null,
+    isFormValid: false,
     required: [(value) => !!value || "Obavezno polje"],
     numeric: [(value) => /^\d+$/.test(value) || "Mora biti broj"],
     numericPhone: [
@@ -276,25 +288,141 @@ export default {
         /^[a-z0-9_-]{2,20}$/.test(value) || "Neispravano korisničko ime",
     ],
     dateCheck: [
-      (value) => Date.parse(value) - Date.parse(new Date()) < 0 || "Neispravan datum",
+      (value) =>
+        Date.parse(value) - Date.parse(new Date()) < 0 || "Neispravan datum",
     ],
     passCheck: [
-      value => value.length > 4 || "Nedovoljno jaka lozinka", //(?=.*?[#?!@$ %^&*-])
+      (value) => value.length > 4 || "Nedovoljno jaka lozinka", //(?=.*?[#?!@$ %^&*-])
       // (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/.test(value) || "Nedovoljno jaka lozinka", //(?=.*?[#?!@$ %^&*-])
     ],
   }),
   computed: {
-    fileCheck() {
+    zauzetoIme() {
       return [
-        (value) => (!!value && !!value.length) || "Obavezno polje",
-        (value) =>
-          (!!value[0].size && !!value[0].size) ||
-          value[0].name == this.korisnik.slika ||
-          "Neispravan fajl",
+        (value) => {
+          let nmbr = this.korisnici.filter(
+            (korisnik) => korisnik.username.toLowerCase() == value.toLowerCase()
+          ).length;
+
+          let trenutni =
+            !this.addEdit &&
+            this.korisnici
+              .find((korisnik) => korisnik.id === this.korisnikMenjanjeID)
+              .username.toLowerCase() == value.toLowerCase() &&
+            nmbr == 1;
+
+          return !nmbr || trenutni || "Korisničko ime je zauzeto";
+        },
+      ];
+    },
+    zauzetEmail() {
+      return [
+        (value) => {
+          let nmbr = this.korisnici.filter(
+            (korisnik) => korisnik.email.toLowerCase() == value.toLowerCase()
+          ).length;
+
+          let trenutni =
+            !this.addEdit &&
+            this.korisnici
+              .find((korisnik) => korisnik.id === this.korisnikMenjanjeID)
+              .email.toLowerCase() == value.toLowerCase() &&
+            nmbr == 1;
+
+          return !nmbr || trenutni || "Email je zauzet";
+        },
       ];
     },
   },
   methods: {
+    async brisanjeKorisnika() {
+      let code, message;
+      try {
+        let response = await fetch(
+          this.url + `/korisnici/${this.korisnikBrisanjeID}.json`,
+          { method: "DELETE" }
+        );
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+        this.korisnici.splice(this.korisnikBrisanjeIndex, 1);
+      } catch (e) {
+        console.log(e);
+        message = `Firebase: ${code}\u00A0${message}`;
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
+      }
+    },
+    async submit() {
+      let code, message, tmpKorisnik;
+      if (this.isFormValid) {
+        this.korisnik = {
+          ime: this.ime,
+          prezime: this.prezime,
+          email: this.email,
+          lozinka: this.lozinka,
+          adresa: `${this.ulica}, ${this.grad}, ${this.postBroj}`,
+          datumRodjenja: this.datum,
+          telefon: this.telefon,
+          korisnickoIme: this.username,
+        };
+        try {
+          let response = await fetch(
+            this.url +
+              (this.addEdit
+                ? "/korisnici.json"
+                : `/korisnici/${this.korisnikMenjanjeID}.json`),
+            {
+              method: this.addEdit ? "POST" : "PATCH",
+              body: JSON.stringify(this.korisnik),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+              },
+            }
+          );
+          code = response.status;
+          message = response.statusText;
+          if (!response.ok) throw new Error();
+          if (!this.addEdit) {
+            tmpKorisnik = this.korisnici.find(
+              (korisnik) => korisnik.id === this.korisnikMenjanjeID
+            );
+            tmpKorisnik.ime = this.korisnik["ime"];
+            tmpKorisnik.prezime = this.korisnik["prezime"];
+            tmpKorisnik.email = this.korisnik["email"];
+            tmpKorisnik.lozinka = this.korisnik["lozinka"];
+            tmpKorisnik.adresa = this.korisnik["adresa"];
+            tmpKorisnik.datum = this.korisnik["datumRodjenja"];
+            tmpKorisnik.telefon = this.korisnik["telefon"];
+            tmpKorisnik.username = this.korisnik["korisnickoIme"];
+          } else {
+            this.korisnici.push({
+              id: (await response.json())["name"],
+              ime: this.korisnik["ime"],
+              prezime: this.korisnik["prezime"],
+              email: this.korisnik["email"],
+              lozinka: this.korisnik["lozinka"],
+              adresa: this.korisnik["adresa"],
+              datum: this.korisnik["datumRodjenja"],
+              telefon: this.korisnik["telefon"],
+              username: this.korisnik["korisnickoIme"],
+            });
+          }
+        } catch (e) {
+          console.log(e);
+          message = `Firebase: ${code}\u00A0${message}`;
+          const title = "Ooops";
+          this.$router.push({
+            path: "/error",
+            state: code == 200 ? {} : { title, message },
+          });
+        }
+        this.clear();
+      }
+    },
     toTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
@@ -313,17 +441,17 @@ export default {
         const results = [];
 
         for (const id in data) {
-            results.push({
-              id: id,
-              ime: data[id]["ime"],
-              prezime: data[id]["prezime"],
-              email: data[id]["email"],
-              lozinka: data[id]["lozinka"],
-              adresa: data[id]["adresa"],
-              datum: data[id]["datumRodjenja"],
-              telefon: data[id]["telefon"],
-              username: data[id]["korisnickoIme"],
-            });
+          results.push({
+            id: id,
+            ime: data[id]["ime"],
+            prezime: data[id]["prezime"],
+            email: data[id]["email"],
+            lozinka: data[id]["lozinka"],
+            adresa: data[id]["adresa"],
+            datum: data[id]["datumRodjenja"],
+            telefon: data[id]["telefon"],
+            username: data[id]["korisnickoIme"],
+          });
         }
         this.korisnici = results;
       } catch (e) {
@@ -351,7 +479,7 @@ export default {
     clear() {
       this.$refs.forma.resetValidation();
       this.$refs.forma.reset();
-    }
+    },
   },
   beforeMount() {
     this.load_korisnici();

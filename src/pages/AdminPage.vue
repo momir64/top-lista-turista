@@ -52,6 +52,9 @@
                               @click="
                                 dialog = true;
                                 agencijaBrisanje = agencija.naziv;
+                                agencijaBrisanjeID = agencija.id;
+                                destinacijeBrisanjeID = agencija.destinacije;
+                                agencijaBrisanjeIndex = i;
                               "
                               :color="!isHovering ? '' : 'red-darken-1'"
                             ></v-btn>
@@ -195,6 +198,9 @@ export default {
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
     agencije: [],
     agencijaBrisanje: null,
+    agencijaBrisanjeID: null,
+    destinacijeBrisanjeID: null,
+    agencijaBrisanjeIndex: null,
     fab: null,
     dialog: false,
   }),
@@ -224,6 +230,7 @@ export default {
             adresa: data[id]["adresa"],
             email: data[id]["email"],
             telefon: data[id]["brojTelefona"],
+            destinacije: data[id]["destinacije"],
           });
         }
         this.agencije = results;
@@ -234,7 +241,48 @@ export default {
         this.$router.push({ path: "/error", state: { code, message } });
       }
     },
-    brisanjeAgencije() {},
+    async brisanjeAgencije() {
+      let code, message;
+      try {
+        let response = await fetch(
+          this.url + `/agencije/${this.agencijaBrisanjeID}.json`,
+          { method: "DELETE" }
+        );
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+        this.agencije.splice(this.agencijaBrisanjeIndex, 1);
+        await this.brisanjeDestinacija();
+      } catch (e) {
+        console.log(e);
+        message = `Firebase: ${code}\u00A0${message}`;
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
+      }
+    },
+    async brisanjeDestinacija() {
+      let code, message;
+      try {
+        let response = await fetch(
+          this.url + `/destinacije/${this.destinacijeBrisanjeID}.json`,
+          { method: "DELETE" }
+        );
+        code = response.status;
+        message = response.statusText;
+        if (!response.ok) throw new Error();
+      } catch (e) {
+        console.log(e);
+        message = `Firebase: ${code}\u00A0${message}`;
+        const title = "Ooops";
+        this.$router.push({
+          path: "/error",
+          state: code == 200 ? {} : { title, message },
+        });
+      }
+    },
   },
   beforeMount() {
     this.load_agencije();
