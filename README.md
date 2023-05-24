@@ -80,9 +80,9 @@ https://tlt.moma.rs
   
 ## Dependencies
 ```
-vue: "^3.2.13
+vue: ^3.2.13
 vuetify: ^3.0.0
-vue-router: "^4.0.0
+vue-router: ^4.0.0
 
 https://uploadcare.com - za uploadovanje i čuvanje slika online
 ```
