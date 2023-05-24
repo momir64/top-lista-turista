@@ -28,7 +28,7 @@
                     <v-col md="5" cols="12"> <v-text-field :rules="[required, numeric, numericYear].flat()" class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Godina osnivanja" v-model="osnovana"></v-text-field> </v-col>
                     <v-col md="7" cols="12"> <v-file-input :rules="fileCheck"                               class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Slika"            v-model="slika" accept="image/*" prepend-icon prepend-inner-icon="mdi-paperclip"></v-file-input> </v-col>
                     <v-col md="5" cols="12" offset-md="7">
-                      <v-btn type="submit" class="bg-white mt-4" style="font-weight: 600" variant="outlined" width="100%" height="44px">
+                      <v-btn type="submit" class="bg-white mt-4" style="font-weight: 600" variant="outlined" width="100%" height="44px" :disabled="disabledBtn">
                         {{ this.$route.params.id ? 'Ažuriraj' : 'Dodaj' }}
                       </v-btn>
                     </v-col>
@@ -247,6 +247,7 @@ export default {
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
     fab: null,
     dialog: false,
+    disabledBtn: false,
     destinacijaBrisanje: null,
     destinacijaBrisanjeID: null,
     destinacijaBrisanjeIndex: null,
@@ -364,10 +365,11 @@ export default {
     },
     async submit() {
       let code, message;
-      if (this.slika && "size" in this.slika[0])
-        this.slikaURL = await this.uploadImage();
-      if (!this.$route.params.id) await this.newDestinacije();
       if (this.isFormValid) {
+        this.disabledBtn = true;
+        if (this.slika && "size" in this.slika[0])
+          this.slikaURL = await this.uploadImage();
+        if (!this.$route.params.id) await this.newDestinacije();
         let tmpAgencija = {
           adresa: `${this.ulica}, ${this.grad}, ${this.postBroj}`,
           brojTelefona: this.telefon,
@@ -396,8 +398,9 @@ export default {
           if (!response.ok) throw new Error();
           if (!this.$route.params.id) {
             let id = (await response.json())["name"];
-            this.$router.push(`/admin_panel/agencija/${id}`);
+            this.disabledBtn = false;
             this.agencija.id = id;
+            this.$router.push(`/admin_panel/agencija/${id}`);
           }
           else
             this.$router.push("/admin_panel/agencije");

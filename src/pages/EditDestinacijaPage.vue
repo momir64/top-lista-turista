@@ -21,7 +21,7 @@
                 <v-col        cols="12"> <v-file-input :rules="fileCheck"                    class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Slike"             v-model="slike" accept="image/*" multiple chips prepend-icon prepend-inner-icon="mdi-paperclip"></v-file-input> </v-col>
                 <v-col        cols="12"> <v-textarea   :rules="required"                     class="mb-n4 text-left" variant="outlined" bg-color="#fff" label="Opis"              v-model="opis" auto-grow></v-textarea> </v-col>
                 <v-col md="3" cols="12">
-                  <v-btn type="submit" class="bg-white mt-4" style="font-weight: 600;" variant="outlined" width="100%" height="44px">
+                  <v-btn type="submit" class="bg-white mt-4" style="font-weight: 600;" variant="outlined" width="100%" height="44px" :disabled="disabledBtn">
                     {{ this.$route.params.id ? 'Ažuriraj' : 'Dodaj' }}
                   </v-btn>
                 </v-col>
@@ -123,6 +123,7 @@ export default {
   data: () => ({
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
     fab: null,
+    disabledBtn: false,
     destinacija: {},
     naziv: null,
     opis: null,
@@ -189,6 +190,7 @@ export default {
     async submit() {
       let code, message;
       if (this.isFormValid) {
+        this.disabledBtn = true;
         if (!this.$route.params.id) this.destinacija.slike = [];
         if ("size" in this.slike[0]) {
           this.destinacija.slike.length = 0;
