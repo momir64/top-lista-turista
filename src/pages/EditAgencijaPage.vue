@@ -399,6 +399,8 @@ export default {
             this.$router.push(`/admin_panel/agencija/${id}`);
             this.agencija.id = id;
           }
+          else
+            this.$router.push("/admin_panel/agencije");
         } catch (e) {
           console.log(e);
           message = `Firebase: ${code}\u00A0${message}`;
