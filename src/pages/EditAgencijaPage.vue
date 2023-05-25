@@ -180,6 +180,32 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="okDialog" width="auto" persistent>
+      <v-card class="kartica_dijalog pa-4">
+        <v-card-title class="text-wrap text-center mb-4 mt-1">
+          {{
+            this.$route.params.id
+              ? `Uspešna izmena agencije ${naziv}!`
+              : `Uspešno dodavanje agencije ${naziv}!`
+          }}
+        </v-card-title>
+        <v-card-actions class="justify-center">
+          <v-btn
+            style="border-radius: 13px"
+            variant="text"
+            @click="
+              okDialog = false;
+              disabledBtn = false;
+              if (!this.$route.params.id) 
+                this.$router.replace(`/admin_panel/agencija/${agencija.id}`);
+            "
+          >
+            Ok
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -248,6 +274,7 @@ export default {
     fab: null,
     dialog: false,
     disabledBtn: false,
+    okDialog: false,
     destinacijaBrisanje: null,
     destinacijaBrisanjeID: null,
     destinacijaBrisanjeIndex: null,
@@ -396,14 +423,8 @@ export default {
           code = response.status;
           message = response.statusText;
           if (!response.ok) throw new Error();
-          if (!this.$route.params.id) {
-            let id = (await response.json())["name"];
-            this.disabledBtn = false;
-            this.agencija.id = id;
-            this.$router.push(`/admin_panel/agencija/${id}`);
-          }
-          else
-            this.$router.push("/admin_panel/agencije");
+          if (!this.$route.params.id) this.agencija.id = (await response.json())["name"];
+          this.okDialog = true;
         } catch (e) {
           console.log(e);
           message = `Firebase: ${code}\u00A0${message}`;

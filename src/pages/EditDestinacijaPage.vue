@@ -47,6 +47,40 @@
       </v-btn>
     </v-scale-transition>
     <foote :mediaLinks="false" />
+
+    <v-dialog v-model="okDialog" width="auto" persistent>
+      <v-card class="kartica_dijalog pa-4">
+        <v-card-title class="text-wrap text-center mb-4 mt-1">
+          {{
+            this.$route.params.id
+              ? `Uspešna izmena destinacije ${naziv}!`
+              : `Uspešno dodavanje destinacije ${naziv}!`
+          }}
+        </v-card-title>
+        <v-card-actions class="justify-center">
+          <v-btn
+            style="border-radius: 13px"
+            variant="text"
+            @click="
+              okDialog = false;
+              this.$router.go(-1);
+              disabledBtn = false;
+              if (!this.$route.params.id) {
+                naziv = null;
+                opis = null;
+                tip = null;
+                prevoz = null;
+                cena = null;
+                maxOsoba = null;
+                slike = null;
+              }
+            "
+          >
+            Ok
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -124,6 +158,7 @@ export default {
     url: "https://top-lista-turista-default-rtdb.europe-west1.firebasedatabase.app/",
     fab: null,
     disabledBtn: false,
+    okDialog: false,
     destinacija: {},
     naziv: null,
     opis: null,
@@ -224,7 +259,7 @@ export default {
           code = response.status;
           message = response.statusText;
           if (!response.ok) throw new Error();
-          this.$router.go(-1);
+          this.okDialog = true;
         } catch (e) {
           console.log(e);
           message = `Firebase: ${code}\u00A0${message}`;
