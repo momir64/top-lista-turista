@@ -209,9 +209,13 @@
                       cover
                     >
                     </v-img>
-                    <v-card-title class="kartica_naslov">{{
-                      destinacija.naziv
-                    }}</v-card-title>
+                    <v-card-title class="kartica_naslov">
+                    <span v-for="word in destinacija.naziv.split(new RegExp(`(${pretragaInput})`, 'ig'))"
+                      :style="word.toLowerCase() == pretragaInput.toLowerCase() ? {'background-color' : '#bfb7a7'} : {}"
+                    >
+                      {{ word }}
+                    </span>  
+                    </v-card-title>
                     <v-card-text
                       class="kartica_tekst text-capitalize text-left px-5"
                     >
