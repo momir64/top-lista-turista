@@ -61,7 +61,7 @@
                 </v-img>
                 <v-card-title class="kartica_naslov">
                   <span v-for="word in agencija.naziv.split(new RegExp(`(${pretragaInput})`, 'ig'))" class="round"
-                    :style="word.toLowerCase() == pretragaInput.toLowerCase() ? {'background-color' : '#d9d1c1'} : {}"
+                    :style="word.toLowerCase() == pretragaInput.toLowerCase() && selektovana == 'Agencija' ? {'background-color' : '#d9d1c1'} : {}"
                   >
                     {{ word }}
                   </span>
