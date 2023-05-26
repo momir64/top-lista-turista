@@ -60,8 +60,8 @@
                 >
                 </v-img>
                 <v-card-title class="kartica_naslov">
-                  <span v-for="word in agencija.naziv.split(new RegExp(`(${pretragaInput})`, 'ig'))"
-                    :style="word.toLowerCase() == pretragaInput.toLowerCase() ? {'background-color' : '#bfb7a7'} : {}"
+                  <span v-for="word in agencija.naziv.split(new RegExp(`(${pretragaInput})`, 'ig'))" class="round"
+                    :style="word.toLowerCase() == pretragaInput.toLowerCase() ? {'background-color' : '#d9d1c1'} : {}"
                   >
                     {{ word }}
                   </span>
@@ -82,6 +82,11 @@
 </template>
 
 <style scoped lang="scss">
+.round {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  border-radius: 7px;
+}
 .kartica_naslov {
   font-family: "Source Sans Pro" !important;
   padding-bottom: 10px;
